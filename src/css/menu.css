@@ -1,0 +1,15 @@
+#menu {
+    width: 100%;
+    min-width: calc(var(--minWidthExplorer) + var(--minWidthCodeArea));
+    height: calc(40px);
+    background-color: var(--menuColor);
+}
+#menu > ul {
+    display: flex;
+    flex-direction: row;
+}
+#menu > ul > li > span {
+    display: inline-block;
+    line-height: 30px;
+    padding: 5px;
+}

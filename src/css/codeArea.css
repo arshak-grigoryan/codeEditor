@@ -1,0 +1,60 @@
+#codeArea {
+    width: 75%;
+    min-width: var(--minWidthCodeArea);
+    height: 100%;
+    background-color: var(--codeAreaColor);
+}
+.filesListWrapper {
+    width: 100%;
+    background-color: var(--filesListWrapperColor);
+}
+.filesList{
+    display: flex;
+    flex-direction: row;
+}
+.filesList > li {
+    padding: 6px;
+    background-color: var(--fileColor);
+}  
+.filesList > li > i {
+    font-size: 14px;
+}
+.filesList > li > i,  
+.filesList > li > span {
+    display: inline-block;
+    line-height: 30px;
+    padding: 5px;
+} 
+.fileCode {
+    width: 100%;
+    height: calc(100% - 12px - 30px - 10px);
+}
+form {
+    width: 100%;
+    height: 100%;
+}
+textarea {
+    width: 100%;
+    height: calc(100% - 2px);
+    padding: 16px;
+    background-color: var(--textAreaColor);
+    resize: none;
+    outline: none;
+}
+/* textarea:focus {
+    border-color: rgb(204, 204, 198);
+} */
+textarea::-webkit-scrollbar {
+    width: 16px;
+    cursor: pointer;
+}
+textarea::-webkit-scrollbar-track {
+    border: 1px solid rgb(66, 66, 66);
+    background: rgb(30, 30, 30); 
+}
+textarea::-webkit-scrollbar-thumb {
+    background: rgb(66, 66, 66); 
+}
+textarea::-webkit-scrollbar-thumb:hover {
+    background: rgb(79, 79, 79); 
+}
