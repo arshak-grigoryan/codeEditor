@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="https://kit.fontawesome.com/a076d05399.js"></script>
+</head>
+<body>
+    <div id="mainWrapper">
+        <div id="menu">
+            <ul>
+                <li><span>File</span></li>
+                <li><span>Edit</span></li>                
+            </ul>
+        </div>
+        <div id="mainContent">
+            <div id="explorer">
+                <div id="root" class="folder">
+                    <ul class="folder projectMainFolder" data-type="folder" data-name="editor">
+                        <div class="self">
+                            <i class="far fa-folder"></i><span>NAME</span>
+                        </div>
+                        <div class="content">
+                            <ul class="folder" data-type="folder" data-name="public">
+                                <div class="self">
+                                    <i class="far fa-folder"></i><span>public</span>
+                                </div>
+                                <div class="content">
+                                    <li class="file">
+                                        <i class="far fa-file-code"></i><span>index.html</span>
+                                    </li>
+                                </div>
+                            </ul>
+                            <ul class="folder" data-type="folder" data-name="src">
+                                <div class="self">
+                                    <i class="far fa-folder"></i><span>src</span>
+                                </div>
+                                <div class="content">
+                                    <ul class="folder" data-type="folder" data-name="js">
+                                        <div class="self">
+                                            <i class="far fa-folder"></i><span>js</span>
+                                        </div>
+                                        <div class="content">
+                                            <li class="file">
+                                                <i class="far fa-file-code"></i><span>index.js</span>
+                                            </li>
+                                        </div>
+                                    </ul>
+                                    <ul class="folder" data-type="folder" data-name="css">
+                                        <div class="self">
+                                            <i class="far fa-folder"></i><span>css</span>
+                                        </div>
+                                        <div class="content">
+                                            <li class="file">
+                                                <i class="far fa-file-code"></i><span>index.css</span>
+                                            </li>
+                                        </div>
+                                    </ul>                                    
+                                </div>
+                            </ul>
+                            <li class="file" class="packgage.json">
+                                <i class="far fa-file-code"></i><span>packgage.json</span>
+                            </li>
+                            <li class="file" class="package.lock.json">
+                                <i class="far fa-file-code"></i><span>package.lock.json</span>
+                            </li>                            
+                        </div>
+                    </ul>
+                </div>
+            </div>
+            <div id="codeArea">
+                <div class="filesListWrapper">
+                    <ul class="filesList">
+                        <li>
+                            <i class="far fa-file-code"></i><span>index.html</span><i class="fas fa-times"></i>
+                        </li>
+                        <li>
+                            <i class="far fa-file-code"></i><span>index.js</span><i class="fas fa-times"></i>
+                        </li>
+                    </ul>
+                </div>
+                <div class="fileCode"><form><textarea></textarea></form></div>                        
+            </div>
+        </div>
+    </div>
+</body>
+</html>
