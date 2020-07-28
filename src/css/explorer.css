@@ -6,6 +6,19 @@
     padding: 4px;
     overflow: auto;
 }
+#explorer::-webkit-scrollbar {
+    width: 16px;
+}
+::-webkit-scrollbar-track {
+    border: 1px solid rgb(66, 66, 66);
+    background: rgb(30, 30, 30); 
+}
+::-webkit-scrollbar-thumb {
+    background: rgb(66, 66, 66); 
+}
+::-webkit-scrollbar-thumb:hover {
+    background: rgb(79, 79, 79); 
+}
 .folder, .file {
     margin-left: 20px;
 }
@@ -28,17 +41,36 @@ ul > span, li > span {
     display: inline-block;
     padding: 4px;
 }
-.fileCode {
+.createFolderWrapper {
     width: 100%;
-    height: 100%
+    padding: 16px 0;
 }
-.fileCode > ul {
+.createFolder {
+    width: 70%;
+    padding: 8px;
+    border-radius: 4px;
+    margin: auto;
+    text-align: center;
+    background-color: var(--buttonColor);
+    cursor: pointer;
+    transition: var(--defTransition);
+}
+.createFolder:hover {
+    background-color: var(--buttonHoverColor);
+}
+.firstFolderDiv {
     width: 100%;
-    height: 100%;
-    margin: 0;
-    display: flex;
+    padding: 16px 0;
+    text-align: center;
 }
-.fileCode > ul > li {
-    margin: 0;
-    position: relative;
+.firstFolderInput {
+    width: 50%;
+    border: 1px solid var(--buttonHoverColor);
+    border-radius: 4px;
+    padding: 4px;
+    background-color: var(--inputColor);
+    outline: none;
+}
+.firstFolderInput:focus {
+    border: 2px solid var(--buttonHoverColor);
 }

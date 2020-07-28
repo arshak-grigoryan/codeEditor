@@ -9,4 +9,8 @@
     --textAreaColor: rgb(30, 30, 30);
     --fileColor: rgb(45, 45, 45);
     --fileHoverColor: rgb(30, 30, 30);
+    --buttonColor: rgb(14, 99, 156);
+    --buttonHoverColor: rgb(17, 119, 187);
+    --defTransition: 0.3s;
+    --inputColor: rgb(60, 60, 60)
 }
