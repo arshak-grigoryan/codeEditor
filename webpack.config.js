@@ -44,7 +44,7 @@ module.exports = {
     mode: 'development',
     entry: {
         main:[
-            './js/index.js'
+            './js/controller.js'
         ]
     },
     output: {
