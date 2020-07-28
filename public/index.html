@@ -7,7 +7,7 @@
     <script src="https://kit.fontawesome.com/a076d05399.js"></script>
 </head>
 <body>
-    <div id="mainWrapper">
+    <div id="app">
         <div id="menu">
             <ul>
                 <li><span>File</span></li>
@@ -16,8 +16,13 @@
         </div>
         <div id="mainContent">
             <div id="explorer">
-                <div id="root" class="folder">
-                    <ul class="folder projectMainFolder" data-type="folder" data-name="editor">
+                <div id="root">
+                    <!-- <div class="createFolderWrapper">
+                        <div class="createFolder">
+                            <span>Create Folder</span>
+                        </div>
+                    </div> -->
+                    <!-- <ul class="folder projectMainFolder" data-type="folder" data-name="editor">
                         <div class="self">
                             <i class="far fa-folder"></i><span>NAME</span>
                         </div>
@@ -66,21 +71,23 @@
                                 <i class="far fa-file-code"></i><span>package.lock.json</span>
                             </li>                            
                         </div>
-                    </ul>
+                    </ul> -->
                 </div>
             </div>
             <div id="codeArea">
                 <div class="filesListWrapper">
                     <ul class="filesList">
-                        <li>
+                        <!-- <li>
                             <i class="far fa-file-code"></i><span>index.html</span><i class="fas fa-times"></i>
                         </li>
                         <li>
                             <i class="far fa-file-code"></i><span>index.js</span><i class="fas fa-times"></i>
-                        </li>
+                        </li> -->
                     </ul>
                 </div>
-                <div class="fileCode"><form><textarea></textarea></form></div>                        
+                <div class="fileCode">
+                    <!-- <form><textarea></textarea></form> -->
+                </div>                        
             </div>
         </div>
     </div>
