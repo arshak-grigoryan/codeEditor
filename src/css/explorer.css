@@ -48,7 +48,7 @@ ul > span, li > span {
 .createFolder {
     width: 70%;
     padding: 8px;
-    border-radius: 4px;
+    border-radius: 2px;
     margin: auto;
     text-align: center;
     background-color: var(--buttonColor);
@@ -65,8 +65,8 @@ ul > span, li > span {
 }
 .firstFolderInput {
     width: 50%;
-    border: 1px solid var(--buttonHoverColor);
-    border-radius: 4px;
+    border: 2px solid transparent;
+    border-radius: 2px;
     padding: 4px;
     background-color: var(--inputColor);
     outline: none;
