@@ -1,4 +1,4 @@
-import { createEl } from './viewHelpers'
+import { createEl, creatFolder } from './viewHelpers'
 
 export default class View {
     constructor () {
@@ -7,31 +7,34 @@ export default class View {
     }   
 
 
-    addCreateButton () {
-        const createFolderWrapper = createEl( { tag: 'div', className: 'createFolderWrapper', parentEl: this.root } )
-        const createFolder = createEl( { tag: 'div', className: 'createFolder', parentEl: createFolderWrapper } )
+    addCreateProjectButton () {
+        const createFolderWrapper = createEl( { tag: 'div', classes: ['createFolderWrapper'], parentEl: this.root } )
+        const createFolder = createEl( { tag: 'div', classes: ['createFolder'], parentEl: createFolderWrapper } )
         createEl( { tag: 'span', parentEl: createFolder, content: 'Create Folder' } )
-        createFolder.addEventListener('click', () => this.firstFolder())
+        createFolder.addEventListener('click', () => this.addProjectFolder())
     }
 
-    firstFolder () {
+    addProjectFolder () {
         const createFolderWrapper = document.querySelector('.createFolderWrapper')
         createFolderWrapper.remove()
-        const firstFolderDiv = createEl( { tag:"div", parentEl:this.root, className:'firstFolderDiv' } )
+        const firstFolderDiv = createEl( { tag:"div", parentEl:this.root, classes:['firstFolderDiv'] } )
         const form = createEl( { tag:'form', parentEl:firstFolderDiv } )
-        const inputName = createEl( { tag:'input', parentEl:form, className: 'firstFolderInput' } )
+        const inputName = createEl( { tag:'input', parentEl:form, classes: ['firstFolderInput'], attributes: { 'autofocus': true } } )
         inputName.addEventListener("keydown", e => {
             if(e.keyCode === 13) { 
-              this.getInputValue(e.target.value)
-              event.preventDefault()
+                event.preventDefault()
+                const name = e.target.value
+                creatFolder(name)
+                this.createFolderInModel(name)
             }
           })
     }
 
-    getInputValue (value) {
-        
+    addFolder () {
+
     }
-    // bindOnFirstFolder (cb) {
-    //     this.fisrtFolder = cb
-    // }
+
+    bindOnCreateFolderInModel (cb) {
+        this.createFolderInModel = cb
+    }
 }
