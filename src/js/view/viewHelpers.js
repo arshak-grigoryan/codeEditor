@@ -1,4 +1,4 @@
-function createEl( { tag, parentEl, classes, attributes, content } ) {
+export function createEl( { tag, parentEl, classes, attributes, content } ) {
   const el = document.createElement(tag)
   if(classes) {
     for (const val of classes) {
@@ -15,7 +15,7 @@ function createEl( { tag, parentEl, classes, attributes, content } ) {
   return el
 }
 
-function creatFolder (folderName) {
+export function creatFolder (folderName) {
   const root = document.getElementById('root')
   const ul = createEl( { tag:'ul', classes:['folder'], parentEl:root } )
   const self = createEl( { tag:'div', classes:['self'], parentEl:ul } )
@@ -25,8 +25,12 @@ function creatFolder (folderName) {
   return ul
 }
 
-function createInput () {
-
+export function createInput () {
+  const root = document.getElementById('root')
+  const createFolderWrapper = document.querySelector('.createFolderWrapper')
+  createFolderWrapper.remove()
+  const inputNameDiv = createEl( { tag:"div", parentEl:root, classes:['inputNameDiv'] } )
+  const form = createEl( { tag:'form', parentEl:inputNameDiv } )
+  const inputName = createEl( { tag:'input', parentEl:form, classes: ['inputNameInput'], attributes: { 'autofocus': true } } )
+  return inputName
 }
-
-export { createEl, creatFolder }
