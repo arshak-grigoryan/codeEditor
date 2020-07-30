@@ -1,10 +1,12 @@
-import { createEl, createInput, creatFolder } from './viewHelpers'
+import { createEl, createInput, creatFolder, createIconsWrapper, addId } from './viewHelpers'
 
 export default class View {
     constructor () {
         this.app = document.getElementById('app')
         this.root = document.getElementById('root')
-        this.projectNow = false
+        this.isProjectNow = false
+        this.projectNowHelper = false
+        this.last2ClickedElements = []
     }   
 
 
@@ -21,12 +23,22 @@ export default class View {
             if(e.keyCode === 13) { 
                 event.preventDefault()
                 let name = e.target.value
-                if( !this.projectNow ) {
+                if( !this.isProjectNow ) {
                     name = name.toUpperCase() // uppercase only project folder name
-                    this.projectNow = true
+                    this.isProjectNow = true
                 }
-                creatFolder(name)
-                this.createFolderInModel(name)
+
+                creatFolder( [name ], this.projectNowHelper )
+                const iconsWrapper = createIconsWrapper(this.projectNowHelper)
+                const fileIcon = iconsWrapper.children[0].addEventListener('click', e => {
+                    
+                })
+                const folderIcon = iconsWrapper.children[1].addEventListener('click', e => {
+                    console.log(e)
+                })
+
+                this.projectNowHelper = true // true is this.projectNow, after first time if statement execution this.project always will be true
+                this.createFolderInModel(name, )
                 inputName.parentElement.parentElement.remove()
             }
           })
