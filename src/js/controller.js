@@ -8,15 +8,19 @@ class Controller {
     this.model = model;
     this.view = view;
 
-    this.model.bindOnModelFirstTimeCreateFolder( () => this.firstTimeCreateFolder())
+    this.model.bindOnCreateFolderButton( () => this.createFolderButton())
 
-    // this.model.bindOnFirstFolder( () => this.firstFolder())
+    this.view.bindOnCreateFolderInModel( (value) => this.createFolderInModel(value))
 
     this.model.init();
   }
   
-  firstTimeCreateFolder () {
-    this.view.addCreateButton()
+  createFolderButton () {
+    this.view.addCreateProjectButton()
+  }
+
+  createFolderInModel (value) {
+    this.model.addProject(value)
   }
 }
 
