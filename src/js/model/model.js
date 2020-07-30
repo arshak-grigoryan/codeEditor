@@ -6,17 +6,17 @@ export default class Model {
     }
 
     init () {
-        this.firstTimeCreateFolder()
+        this.createFolderButton()
     }
 
-    bindOnModelFirstTimeCreateFolder (cb) {
-        this.firstTimeCreateFolder = cb
+    bindOnCreateFolderButton (cb) {
+        this.createFolderButton = cb
     }
     
-    addProject () {
-        console.log(555555555)
-
-        // const newProject = new Folder()
-        // this.project = newProject
+    addProject (folderName) {
+        const folder = new Folder( { name:folderName } )
+        this.project = folder
+        console.log(this.project)
     }
+
 } 
