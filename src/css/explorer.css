@@ -33,10 +33,15 @@
 .projectMainFolder span {
     font-weight: bold;    
 }
-.fa-folder {
-    display: inline-block;
+.self > img {
+    width: 30px;
+    height: 30px;
     padding: 4px;
 }
+/* .fa-folder {
+    display: inline-block;
+    padding: 4px;
+} */
 ul > span, li > span {
     display: inline-block;
     padding: 4px;
@@ -73,4 +78,18 @@ ul > span, li > span {
 }
 .inputNameInput:focus {
     border: 2px solid var(--buttonHoverColor);
+}
+.iconsWrapper {
+    display: flex;
+    flex-direction: row;
+    transition: var(--iconTransition);
+    opacity: 0;
+}
+#explorer:hover .iconsWrapper {
+    opacity: 1;
+}
+.iconArrowWrapper > img, .iconsWrapper > img {
+    width: 30px;
+    height: 30px;
+    padding: 4px;
 }

@@ -12,5 +12,6 @@
     --buttonColor: rgb(14, 99, 156);
     --buttonHoverColor: rgb(17, 119, 187);
     --defTransition: 0.3s;
+    --iconTransition: 0.15s;
     --inputColor: rgb(60, 60, 60)
 }
