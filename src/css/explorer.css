@@ -58,12 +58,12 @@ ul > span, li > span {
 .createFolder:hover {
     background-color: var(--buttonHoverColor);
 }
-.firstFolderDiv {
+.inputNameDiv {
     width: 100%;
     padding: 16px 0;
     text-align: center;
 }
-.firstFolderInput {
+.inputNameInput {
     width: 50%;
     border: 2px solid transparent;
     border-radius: 2px;
@@ -71,6 +71,6 @@ ul > span, li > span {
     background-color: var(--inputColor);
     outline: none;
 }
-.firstFolderInput:focus {
+.inputNameInput:focus {
     border: 2px solid var(--buttonHoverColor);
 }
