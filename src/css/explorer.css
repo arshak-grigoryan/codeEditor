@@ -19,15 +19,24 @@
 ::-webkit-scrollbar-thumb:hover {
     background: rgb(79, 79, 79); 
 }
-.folder, .file {
+.folder {
     margin-left: 20px;
 }
 #root {
     margin-left: 0;
+    cursor: pointer;
+}
+.self {
+    transition: var(--iconTransition);
 }
 .self, .content > li {
     display: flex;
     flex-direction: row;
+    align-items: center;
+}
+.file {
+    margin-left: 28px;
+    display: flex;
     align-items: center;
 }
 .projectMainFolder span {
@@ -38,11 +47,7 @@
     height: 30px;
     padding: 4px;
 }
-/* .fa-folder {
-    display: inline-block;
-    padding: 4px;
-} */
-ul > span, li > span {
+.folder > span, .file > span {
     display: inline-block;
     padding: 4px;
 }
@@ -88,8 +93,15 @@ ul > span, li > span {
 #explorer:hover .iconsWrapper {
     opacity: 1;
 }
-.iconArrowWrapper > img, .iconsWrapper > img {
+.iconArrowWrapper > img, .iconsWrapper > img, li > img {
     width: 30px;
     height: 30px;
     padding: 4px;
+}
+.self:hover, .file:hover {
+    background-color: var(--itemHoverColor);
+}
+.self:focus, .file:focus {
+    background-color: var(--itemFocusColor); 
+    outline: none;
 }
