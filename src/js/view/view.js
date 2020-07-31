@@ -12,7 +12,7 @@ export default class View {
     addCreateProjectButton () {
         const createFolderWrapper = createEl( { tag: 'div', classes: ['createFolderWrapper'], parentEl: this.root } )
         const createFolder = createEl( { tag: 'div', classes: ['createFolder'], parentEl: createFolderWrapper } )
-        createEl( { tag: 'span', parentEl: createFolder, content: 'Create Project Folder' } )
+        createEl( { tag: 'span', parentEl: createFolder, content: 'Create Project' } )
         createFolder.addEventListener('click', () => this.addItem())
     }
 
