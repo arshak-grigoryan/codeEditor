@@ -36,12 +36,13 @@ export function createIconsWrapper () {
   const iconsWrapper = createEl( { tag:'div', classes:['iconsWrapper'], parentEl:self } )
   const fileIcon = createEl( { tag:'img', classes:['fileIcon'], parentEl:iconsWrapper, attributes:{ 'src':ICONS.fileIconLightIcon } } )
   const folderIcon = createEl( { tag:'img', classes:['folderIcon'], parentEl:iconsWrapper, attributes:{ 'src':ICONS.folderIconLight } } )
+  const editIcon = createEl( { tag:'img', classes: ['editIcon'], parentEl:iconsWrapper, attributes:{ 'src':ICONS.editIcon }} )
   return iconsWrapper
 }
 
 export function creatFolder ( [ name, parentElem ] ) {
   const root = document.getElementById('root')
-  const ul = createEl( { tag:'ul', classes:['folder'], parentEl:parentElem || root, attributes: { parentId: addId() } } )
+  const ul = createEl( { tag:'ul', classes:['folder'], parentEl:parentElem || root } )
   const self = createEl( { tag:'div', classes:['self'], parentEl:ul, attributes: { tabindex:'0' } } )
   const iconArrowWrapper = createEl( { tag:'div', classes:['iconArrowWrapper'], parentEl:self } )
   const iconArrow = createEl( { tag:'img', classes:['iconArrow'], parentEl:iconArrowWrapper, attributes:{ 'src': ICONS.arrowRightIcon} } )
@@ -58,41 +59,28 @@ export function createFile ( [ name, parentElem ] ) {
   return li
 }
 
-export function createInput ( parentElement ) {
+export function createInput ( parentElement, divClassName, InputClassName ) {
   const root = document.getElementById('root')
-  const inputNameDiv = createEl( { tag:"div", parentEl: parentElement || root, classes:['inputNameDiv'] } )
+  const inputNameDiv = createEl( { tag:"div", parentEl: parentElement || root, classes:['inputNameDiv', divClassName] } )
   const form = createEl( { tag:'form', parentEl:inputNameDiv } )
-  const inputName = createEl( { tag:'input', parentEl:form, classes: ['inputNameInput'], attributes: { 'autofocus': true } } )
+  const inputName = createEl( { tag:'input', parentEl:form, classes: ['inputNameInput', InputClassName], attributes: { 'autofocus': true } } )
   return inputName
 }
-
-
-const IDs = [0];
-let maxId = Math.max.apply(null, IDs)
-export function addId () {
-  maxId += 1;
-  IDs.push(maxId)
-  return maxId;
-}
-
-// export function nameChecker (name) {
-
-// }
 
 export function findParent (el) {
   const attrClass = el.getAttribute('class')
   if (attrClass === 'folder') {
     if(el.parentElement.getAttribute('id') === 'root') {
-      return { currentThis:el, className:attrClass, name:el.children[0].children[2].textContent }
+      return { currentThis:el, className:attrClass, name:el.children[0].children[2].textContent, bindEl:el }
     } else {
-      return { currentThis:el.children[1], className:attrClass, name:el.children[0].children[2].textContent }
+      return { currentThis:el.children[1], className:attrClass, name:el.children[0].children[2].textContent, bindEl:el }
     }
   }
   if(attrClass === 'file') {
     if(el.parentElement.getAttribute('class') === 'folder') {
-      return { currentThis:el.parentElement.children[1], className:attrClass, name:el.children[1].textContent }
+      return { currentThis:el.parentElement.children[1], className:attrClass, name:el.children[1].textContent, bindEl:el }
     } else {
-      return { currentThis:el.parentElement, className:attrClass, name:el.children[1].textContent }
+      return { currentThis:el.parentElement, className:attrClass, name:el.children[1].textContent, bindEl:el }
     }
   }
   if(attrClass === 'fileIcon' ||  attrClass === 'folderIcon') {
