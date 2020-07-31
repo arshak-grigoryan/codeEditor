@@ -13,42 +13,7 @@ export default class View {
         const createFolderWrapper = createEl( { tag: 'div', classes: ['createFolderWrapper'], parentEl: this.root } )
         const createFolder = createEl( { tag: 'div', classes: ['createFolder'], parentEl: createFolderWrapper } )
         createEl( { tag: 'span', parentEl: createFolder, content: 'Create Project Folder' } )
-        // createFolder.addEventListener('click', () => this.addProjectFolder())
         createFolder.addEventListener('click', () => this.addItem())
-    }
-
-    addProjectFolder () {
-        const inputName = createInput(!this.isprojectNowHelper)
-        inputName.addEventListener("keydown", e => {
-            if(e.keyCode === 13) { 
-                event.preventDefault()
-                let name = e.target.value
-
-                const ul = creatFolder( [ name ])
-                ul.addEventListener('click', e => {
-                    const { currentThis, type} = findParent(e.target)
-                    if(currentThis && type !== 'inputNameInput') {
-                        this.last2ClickedElements.push(currentThis)
-                    }
-                    if(this.last2ClickedElements.length > 2) {
-                        this.last2ClickedElements.shift()
-                    }
-                })
-
-                const iconsWrapper = createIconsWrapper()
-                const fileIcon = iconsWrapper.children[0].addEventListener('click', e => {
-                    const { currentThis, type} = findParent(e.target)
-                    this.addItem(currentThis, type)
-                })
-                const folderIcon = iconsWrapper.children[1].addEventListener('click', e => {
-                    const { currentThis, type} = findParent(e.target)
-                    this.addItem(currentThis, type)
-                })
-
-                // this.createFolderInModel(name)
-                inputName.parentElement.parentElement.remove()
-            }
-          })
     }
 
     addItem (parentElement, className) {
@@ -77,13 +42,12 @@ export default class View {
                         }
                         console.log(this.last2ClickedElements)
                     })
-                    if( !this.isProjectNow) {
+                    if( !this.isProjectNow ) {
                         const iconsWrapper = createIconsWrapper()
                         const fileIcon = iconsWrapper.children[0].addEventListener('click', e => {
                             if (e.target.getAttribute('class') === 'inputNameInput') {
                                 return undefined
                             }
-                            // console.log(e.target)
                             const { currentThis, className, name} = findParent(e.target)
                             // console.log(name)
                             if( currentThis && (className === 'folder' || className === 'file' || className === 'fileIcon' || className === 'folderIcon') ) {
@@ -98,7 +62,6 @@ export default class View {
                             if (e.target.getAttribute('class') === 'inputNameInput') {
                                 return undefined
                             }
-                            // console.log(e.target)
                             const { currentThis, className, name} = findParent(e.target)
                             // console.log(name)
                             if( currentThis && (className === 'folder' || className === 'file' || className === 'fileIcon' || className === 'folderIcon') ) {
