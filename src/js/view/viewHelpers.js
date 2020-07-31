@@ -1,25 +1,14 @@
 import { ICONS } from '../../img/icons/icons'
 
 function getIcon (fileName) {
-  console.log('fileName', fileName)
-  console.log(fileName === /\.js$/)
   if(/\.html$/.test(fileName)) {
-    const ext = fileName.slice(fileName.length-5, fileName.length)
-    if(ext) {
-      return ICONS.html5Icon
-    }
+    return ICONS.html5Icon
   }
   if(/\.css$/.test(fileName)) {
-    const ext = fileName.slice(fileName.length-4, fileName.length)
-    if(ext) {
-      return ICONS.css3Icon
-    }
+    return ICONS.css3Icon
   }
   if(/\.js$/.test(fileName)) {
-    const ext = fileName.slice(fileName.length-3, fileName.length)
-    if(ext) {
-      return ICONS.jsIcon
-    }
+    return ICONS.jsIcon
   } else {
     return ICONS.fileDefaultIcon
   }
@@ -92,9 +81,19 @@ export function addId () {
 
 export function findParent (el) {
   const attrClass = el.getAttribute('class')
-  if (attrClass === 'folder' || attrClass === 'file') {
-    console.log('000', el, el.children[0].children[2])
-    return { currentThis:el, className:attrClass, name:el.children[0].children[2].textContent }
+  if (attrClass === 'folder') {
+    if(el.parentElement.getAttribute('id') === 'root') {
+      return { currentThis:el, className:attrClass, name:el.children[0].children[2].textContent }
+    } else {
+      return { currentThis:el.children[1], className:attrClass, name:el.children[0].children[2].textContent }
+    }
+  }
+  if(attrClass === 'file') {
+    if(el.parentElement.getAttribute('class') === 'folder') {
+      return { currentThis:el.parentElement.children[1], className:attrClass, name:el.children[1].textContent }
+    } else {
+      return { currentThis:el.parentElement, className:attrClass, name:el.children[1].textContent }
+    }
   }
   if(attrClass === 'fileIcon' ||  attrClass === 'folderIcon') {
     return { currentThis:el.parentElement.parentElement.parentElement.children[1], className:attrClass }
@@ -102,4 +101,3 @@ export function findParent (el) {
     return findParent (el.parentElement)
   }
 }
-
