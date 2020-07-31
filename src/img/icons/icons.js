@@ -7,6 +7,8 @@ import arrowRight from './arrowRight.png'
 import html5 from './html5.png'
 import css3 from './css3.png'
 import js from './js.png'
+import edit from './edit.png'
+import trash from './trash.png'
 
 export const ICONS = {
     folderIcon: folder,
@@ -17,5 +19,7 @@ export const ICONS = {
     arrowRightIcon: arrowRight,
     html5Icon: html5,
     css3Icon: css3,
-    jsIcon: js    
+    jsIcon: js,
+    editIcon: edit,
+    trashIcon: trash    
 }
