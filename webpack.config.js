@@ -5,19 +5,23 @@ const { CleanWebpackPlugin } = require('clean-webpack-plugin')
 const CopyWebpackPlugin = require('copy-webpack-plugin')
 const MiniCSSExtractPlugin = require('mini-css-extract-plugin')
 const OptimizeCSSAssetsWebpackPlugin = require('optimize-css-assets-webpack-plugin')
+const TerserWebpackPlugin = require('terser-webpack-plugin')
 
 const isDev = process.env.NODE_ENV === 'development'
 const isProd = process.env.NODE_ENV === 'production'
 
-const filename = ext => isDev ? `[name].${ext}` : `[name].[hash].${ext}`
+const filename = ext => isDev ? `[name].[hash].${ext}` : `[name].[hash].${ext}`
 
 const optimization = () => {
     const config = {
-
+        splitChunks: {
+            chunks: 'all'
+        }
     }
     if (isProd) {
         config.minimizer = [
             new OptimizeCSSAssetsWebpackPlugin(),
+            new TerserWebpackPlugin()
         ]
     }
     return config
@@ -44,6 +48,7 @@ module.exports = {
     mode: 'development',
     entry: {
         main:[
+            '@babel/polyfill', 
             './js/controller.js'
         ]
     },
@@ -58,6 +63,21 @@ module.exports = {
     plugins: plugins(),
     module: {
         rules: [
+            {
+                test: /\.m?js$/,
+                exclude: /(node_modules|bower_components)/,
+                loader: {
+                    loader: "babel-loader",
+                    options: {
+                        presets: [
+                            '@babel/preset-env'
+                        ],
+                        plugins: [
+                            '@babel/plugin-proposal-class-properties'
+                        ]
+                    }
+                }
+            },
             {
                 test: /\.css$/,
                 use: [MiniCSSExtractPlugin.loader,'css-loader']
