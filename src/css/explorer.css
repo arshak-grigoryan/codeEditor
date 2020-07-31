@@ -85,6 +85,7 @@
     border-radius: 2px;
     padding: 4px;
     background-color: var(--inputColor);
+    background-color: var(--codeAreaColor);
     outline: none;
 }
 .inputNameInput:focus {

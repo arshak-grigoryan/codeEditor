@@ -7,6 +7,7 @@
     text-align: center;
     color: var(--grey);
     line-height: 20px;
+    border-bottom: 0.5px solid grey;
 }
 /* #menu > ul {
     display: flex;
