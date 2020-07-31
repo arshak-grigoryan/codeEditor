@@ -111,3 +111,9 @@
     background-color: var(--itemFocusColor); 
     outline: none;
 }
+.editDiv {
+    margin-left: 0;
+}
+.editInput {
+    background-color: var(--codeAreaColor)
+}

@@ -27,5 +27,5 @@ body {
     display: flex;
     flex-direction: row;
     width: 100%;
-    height: calc(100vh - 40px);
+    height: calc(100vh - 30px);
 }

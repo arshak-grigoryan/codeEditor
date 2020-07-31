@@ -1,10 +1,14 @@
 #menu {
     width: 100%;
+    padding: 5px;
     min-width: calc(var(--minWidthExplorer) + var(--minWidthCodeArea));
-    height: calc(40px);
+    height: calc(30px);
     background-color: var(--menuColor);
+    text-align: center;
+    color: var(--grey);
+    line-height: 20px;
 }
-#menu > ul {
+/* #menu > ul {
     display: flex;
     flex-direction: row;
 }
@@ -12,4 +16,4 @@
     display: inline-block;
     line-height: 30px;
     padding: 5px;
-}
+} */
