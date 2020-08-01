@@ -43,13 +43,13 @@ export default class View {
 
                         const folderIcon = iconsWrapper.children[1].addEventListener('click', e => this.folderIconClick(e))
                         
-                        // const editIcon = iconsWrapper.children[2].addEventListener('click', e => this.editIconClick(e))
+                        const editIcon = iconsWrapper.children[2].addEventListener('click', e => this.editIconClick(e))
 
                         this.isProjectNow = true
                     }
                 }
                 if(className === 'fileIcon') {
-                    const li = createFile( [ name, parentElement ] )
+                    const li = createFile( [ e.target.value, parentElement ] )
                 }
                 inputName.parentElement.parentElement.remove()
             }
@@ -57,24 +57,28 @@ export default class View {
     }
     
     editIconClick = e => {
-        if (e.target.getAttribute('class') === 'inputNameInput') {
-            return undefined
-        }
+        if (e.target.getAttribute('class') === 'inputNameInput') { return undefined }
+
         const { currentThis, className, name} = findParent(e.target)
-        // console.log(name)
+
         if( currentThis && (className === 'folder' || className === 'file' || className === 'fileIcon' || className === 'folderIcon') ) {
             this.last2ClickedElements.push(currentThis)
         }  
+
         if(this.last2ClickedElements.length > 2) {
             this.last2ClickedElements.shift()
         } 
+
         if(this.last2ClickedElements[0].parentElement.getAttribute('class') === 'folder') {
+
             const thisElemName = this.last2ClickedElements[0].parentElement.children[0].children[2].textContent
-            console.log(thisElemName)
+
             this.last2ClickedElements[0].parentElement.children[0].children[2].remove()
+
             const inputName = createInput( this.last2ClickedElements[0].parentElement.children[0], 'editDiv', 'editInput'  )
+
             inputName.value = thisElemName
-            console.log(inputName)
+            
             inputName.addEventListener('keydown', e => {
                 if(e.keyCode === 13) { 
                     event.preventDefault()
@@ -143,7 +147,7 @@ export default class View {
         }
     }
 
-    fileIconClick= e => {
+    fileIconClick = e => {
         if (e.target.getAttribute('class') === 'inputNameInput') { return }
 
         const { currentThis, className, name, bindEl} = findParent(e.target)
