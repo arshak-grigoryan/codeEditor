@@ -1,6 +1,6 @@
 import { ICONS } from '../../img/icons/icons'
 
-function getIcon (fileName) {
+export function getIcon (fileName) {
   if(/\.html$/.test(fileName)) {
     return ICONS.html5Icon
   }
@@ -46,8 +46,8 @@ export function creatFolder ( [ name, parentElem ] ) {
   const self = createEl( { tag:'div', classes:['self'], parentEl:ul, attributes: { tabindex:'0' } } )
   const iconArrowWrapper = createEl( { tag:'div', classes:['iconArrowWrapper'], parentEl:self } )
   const iconArrow = createEl( { tag:'img', classes:['iconArrow'], parentEl:iconArrowWrapper, attributes:{ 'src': ICONS.arrowRightIcon} } )
-  const iconimg = createEl( { tag:'img', parentEl:self, attributes: { src: ICONS.folderIcon } } )
-  const span = createEl( { tag:'span', parentEl:self, content: name } )
+  const iconimg = createEl( { tag:'img', parentEl:iconArrowWrapper, attributes: { src: ICONS.folderIcon } } )
+  const span = createEl( { tag:'span', parentEl:iconArrowWrapper, content: name } )
   const content = createEl( { tag:'div', classes:['content'], parentEl:ul } )
   return ul
 }
@@ -71,9 +71,9 @@ export function findParent (el) {
   const attrClass = el.getAttribute('class')
   if (attrClass === 'folder') {
     if(el.parentElement.getAttribute('id') === 'root') {
-      return { currentThis:el, className:attrClass, name:el.children[0].children[2].textContent, bindEl:el }
+      return { currentThis:el, className:attrClass, name:el.children[0].children[0].children[2].textContent, bindEl:el }
     } else {
-      return { currentThis:el.children[1], className:attrClass, name:el.children[0].children[2].textContent, bindEl:el }
+      return { currentThis:el.children[1], className:attrClass, name:el.children[0].children[0].children[2].textContent, bindEl:el }
     }
   }
   if(attrClass === 'file') {

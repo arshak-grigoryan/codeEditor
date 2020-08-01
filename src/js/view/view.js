@@ -1,4 +1,11 @@
-import { createEl, createInput, creatFolder, createIconsWrapper, createFile, findParent } from './viewHelpers'
+import { 
+    createEl, 
+    createInput, 
+    creatFolder, 
+    createIconsWrapper, 
+    createFile, 
+    findParent, 
+    getIcon } from './viewHelpers'
 
 export default class View {
     constructor () {
@@ -6,8 +13,7 @@ export default class View {
         this.root = document.getElementById('root')
         this.isProjectNow = false
         this.last2ClickedElements = []
-        this.lastClickedFile = []
-        this.lastClickedFolder = []
+        this.lastClickedFileOrFolder
     }   
 
 
@@ -69,60 +75,40 @@ export default class View {
             this.last2ClickedElements.shift()
         } 
 
-        if(this.last2ClickedElements[0].parentElement.getAttribute('class') === 'folder') {
-
-            const thisElemName = this.last2ClickedElements[0].parentElement.children[0].children[2].textContent
-
-            this.last2ClickedElements[0].parentElement.children[0].children[2].remove()
-
-            const inputName = createInput( this.last2ClickedElements[0].parentElement.children[0], 'editDiv', 'editInput'  )
-
+        if(this.lastClickedFileOrFolder && this.lastClickedFileOrFolder.getAttribute('class') === 'folder') {
+            const thisElemName = this.lastClickedFileOrFolder.children[0].children[0].children[2].textContent
+            console.log(thisElemName)
+            this.lastClickedFileOrFolder.children[0].children[0].children[2].remove()
+            const inputName = createInput( this.lastClickedFileOrFolder.children[0].children[0], 'editDiv', 'editInput'  )
             inputName.value = thisElemName
-            
+            console.log(inputName)
             inputName.addEventListener('keydown', e => {
                 if(e.keyCode === 13) { 
                     event.preventDefault()
                     let name = e.target.value
-                    const span = createEl( { tag: 'span', parentEl:this.last2ClickedElements[0].parentElement.children[0], content:name } )
+                    const span = createEl( { tag: 'span', parentEl:this.lastClickedFileOrFolder.children[0].children[0], content:name } )
                     inputName.parentElement.parentElement.remove()
                 }
             })                                
         }
-        // console.log('folder', this.lastClickedFolder[0])
-        // if(this.lastClickedFolder[0].getAttribute('class') === 'folder') {
-        //     const thisElemName = this.lastClickedFolder[0].children[0].children[2].textContent
-        //     console.log(thisElemName)
-        //     this.lastClickedFolder[0].children[0].children[2].remove()
-        //     const inputName = createInput( this.lastClickedFolder[0].children[0], 'editDiv', 'editInput'  )
-        //     inputName.value = thisElemName
-        //     console.log(inputName)
-        //     inputName.addEventListener('keydown', e => {
-        //         if(e.keyCode === 13) { 
-        //             event.preventDefault()
-        //             let name = e.target.value
-        //             const span = createEl( { tag: 'span', parentEl:this.lastClickedFolder[0].children[0], content:name } )
-        //             inputName.parentElement.parentElement.remove()
-        //         }
-        //     })                                
-        // }
-        //  else if(this.lastClickedFile[0].getAttribute('class') === 'file') {
-        //     console.log('wow')
-            
-        //     const thisElemName = this.lastClickedFile[0].children[1].textContent
-        //     console.log(thisElemName)
-        //     this.lastClickedFile[0].children[1].remove()
-        //     const inputName = createInput( this.lastClickedFile[0], 'editDiv', 'editInput'  )
-        //     inputName.value = thisElemName
-        //     console.log(inputName)
-        //     inputName.addEventListener('keydown', e => {
-        //         if(e.keyCode === 13) { 
-        //             event.preventDefault()
-        //             let name = e.target.value
-        //             const span = createEl( { tag: 'span', parentEl:this.lastClickedFile[0], content:name } )
-        //             inputName.parentElement.parentElement.remove()
-        //         }
-        //     })    
-        // }
+        if(this.lastClickedFileOrFolder.getAttribute('class') === 'file') {            
+            const thisElemName = this.lastClickedFileOrFolder.children[1].textContent
+            console.log(thisElemName)
+            this.lastClickedFileOrFolder.children[1].remove()
+            const inputName = createInput( this.lastClickedFileOrFolder, 'editDiv', 'editInput'  )
+            inputName.value = thisElemName
+            console.log(inputName)
+            inputName.addEventListener('keydown', e => {
+                if(e.keyCode === 13) { 
+                    event.preventDefault()
+                    let name = e.target.value
+                    this.lastClickedFileOrFolder.children[0].remove()
+                    const iconimg = createEl( { tag:'img', parentEl:this.lastClickedFileOrFolder, attributes: { src: getIcon(name)} } )
+                    const span = createEl( { tag: 'span', parentEl:this.lastClickedFileOrFolder, content:name } )
+                    inputName.parentElement.parentElement.remove()
+                }
+            })    
+        }
     }
 
     folderClick = e => {
@@ -130,13 +116,7 @@ export default class View {
 
         const { currentThis, className, name, bindEl} = findParent(e.target)
 
-        if(className === 'folder') { this.lastClickedFolder.push(bindEl) }
-
-        if(this.lastClickedFolder.length > 1) { this.lastClickedFolder.shift() }
-
-        if(className === 'file') { this.lastClickedFile.push(bindEl) }
-
-        if(this.lastClickedFile.length > 1) { this.lastClickedFile.shift() }
+        if(className === 'folder' || className === 'file') { this.lastClickedFileOrFolder = bindEl }
 
         if( currentThis && (className === 'folder' || className === 'file' || className === 'fileIcon' || className === 'folderIcon') ) {
             this.last2ClickedElements.push(currentThis)
