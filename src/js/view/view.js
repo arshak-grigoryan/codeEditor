@@ -23,11 +23,16 @@ export default class View {
         createFolder.addEventListener('click', () => this.addItem())
     }
 
-    addItem (parentElement, className) {
-        
+    addItem (parentEl, className) {
+        // if parentEl is projectFolder reassign to it content
+        const projectFolder = document.querySelector('#root > ul')
+        if(parentEl && parentEl === projectFolder) {
+            parentEl = projectFolder.children[1]
+        }
+
         if( !this.isProjectNow ) { document.querySelector('.createFolderWrapper').remove() }
 
-        const inputName = createInput( parentElement )
+        const inputName = createInput( parentEl )
 
         inputName.addEventListener('keydown', e => {
 
@@ -36,7 +41,7 @@ export default class View {
 
                 if(className === 'folderIcon' || !this.isProjectNow) {
 
-                    const ul = creatFolder( [ e.target.value, parentElement ] )
+                    const ul = creatFolder( [ e.target.value, parentEl ] )
 
                     ul.addEventListener('click', e => this.folderClick(e))
 
@@ -58,7 +63,8 @@ export default class View {
                     }
                 }
                 if(className === 'fileIcon') {
-                    const li = createFile( [ e.target.value, parentElement ] )
+                    console.log( e.target.value, parentEl,'elem li' )
+                    createFile( [ e.target.value, parentEl ] )
                 }
                 inputName.parentElement.parentElement.remove()
             }
@@ -131,6 +137,8 @@ export default class View {
     }
 
     expandContent = (arrowIcon, thisFolder) => {
+        console.log(arrowIcon, thisFolder)
+
         const content = thisFolder.children[1]
 
         if(content.style.display !== 'none') {
@@ -139,6 +147,18 @@ export default class View {
         } else {
             arrowIcon.style.transform = 'rotate(0deg)'
             content.style.display = 'block'
+        }
+    }
+
+    autoExpandContent = () => {
+        const projectFolder = document.querySelector('#root > ul')
+        const thisFolder = this.last2ClickedElements[0]
+        if(projectFolder === thisFolder) {
+            projectFolder.children[0].children[0].children[0].style.transform = 'rotate(0deg)'
+            projectFolder.children[1].style.display = 'block' 
+        } else {
+            thisFolder.parentElement.children[0].children[0].children[0].style.transform = 'rotate(0deg)'
+            thisFolder.parentElement.children[1].style.display = 'block'            
         }
     }
 
@@ -154,6 +174,9 @@ export default class View {
         if(this.last2ClickedElements.length > 2) {
             this.last2ClickedElements.shift()
         } 
+
+        // at first expand this folder content and after it add input area
+        this.autoExpandContent()
 
         this.addItem(this.last2ClickedElements[0], className)
     }
@@ -172,8 +195,7 @@ export default class View {
         }
 
         // at first expand this folder content and after it add input area
-        this.last2ClickedElements[0].parentElement.children[0].children[0].children[0].style.transform = 'rotate(0deg)'
-        this.last2ClickedElements[0].parentElement.children[1].style.display = 'block'
+        this.autoExpandContent()
 
         this.addItem(this.last2ClickedElements[0], className)
     }
