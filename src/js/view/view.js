@@ -13,7 +13,9 @@ export default class View {
         this.root = document.getElementById('root')
         this.isProjectNow = false
         this.last2ClickedElements = []
+        this.lastClickedElement = []
         this.lastClickedFileOrFolder
+        
     }   
 
     addCreateProjectButton () {
@@ -44,6 +46,13 @@ export default class View {
                     const ul = creatFolder( [ e.target.value, parentEl ] )
 
                     ul.addEventListener('click', e => this.folderClick(e))
+                        ul.addEventListener('click', e => {
+                        this.lastClickedElement.push(ul)
+                        if(this.lastClickedElement.length > 1) {
+                            this.lastClickedElement.shift()
+                        }
+                        
+                    })
 
                     const expandArrow = ul.children[0].children[0].children[0]
                     
@@ -59,13 +68,23 @@ export default class View {
                         
                         const editIcon = iconsWrapper.children[2].addEventListener('click', e => this.editIconClick(e))
 
+                        const deleteIcon = iconsWrapper.children[3].addEventListener('click', e => this.deleteIconClick(e))
+
                         this.isProjectNow = true
                     }
                 }
                 if(className === 'fileIcon') {
                     const li = createFile( [ e.target.value, parentEl ] )
                     li.addEventListener('click', e => this.fileClick(e))
+                        // const numberId =  li.getAttribute('elId');
+                        li.addEventListener("click", e => {
+                        this.lastClickedElement.push(li)
+                        if(this.lastClickedElement.length > 1) {
+                            this.lastClickedElement.shift()
+                        }
+                    })
                 }
+                
                 inputName.parentElement.parentElement.remove()
             }
         })
@@ -76,8 +95,9 @@ export default class View {
 
         const { currentThis, className, name} = findParent(e.target)
 
-        if( currentThis && (className === 'folder' || className === 'file' || className === 'fileIcon' || className === 'folderIcon') ) {
+        if(/* currentThis && (*/ className === 'folder' || className === 'file' /* || className === 'fileIcon' || className === 'folderIcon')*/ ) {
             this.last2ClickedElements.push(currentThis)
+            console.log("im uzstsy", currentThis)
         }  
 
         if(this.last2ClickedElements.length > 2) {
@@ -138,6 +158,20 @@ export default class View {
         if(this.last2ClickedElements.length > 2) {
             this.last2ClickedElements.shift()
         }
+    }
+
+    deleteIconClick = e => {
+        const {className} = findParent(e.target)
+        if((className === 'folder') || (className === 'file')) { 
+             this.lastClickedFileOrFolder.remove()
+        } 
+    // else if(className === 'file') { 
+    //         this.lastClickedElement[0].remove();
+    //   }
+
+        // const thisElemName = this.lastClickedFileOrFolder.children[0].children[0].children[2].textContent
+        // console.log('thisElemName: ', thisElemName);
+        // console.log("this.lastClickedElement :",this.lastClickedElement);
     }
 
     expandContent = (arrowIcon, thisFolder) => {

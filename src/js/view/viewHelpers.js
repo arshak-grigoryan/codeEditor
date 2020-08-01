@@ -37,6 +37,7 @@ export function createIconsWrapper () {
   const fileIcon = createEl( { tag:'img', classes:['fileIcon'], parentEl:iconsWrapper, attributes:{ 'src':ICONS.fileIconLightIcon } } )
   const folderIcon = createEl( { tag:'img', classes:['folderIcon'], parentEl:iconsWrapper, attributes:{ 'src':ICONS.folderIconLight } } )
   const editIcon = createEl( { tag:'img', classes: ['editIcon'], parentEl:iconsWrapper, attributes:{ 'src':ICONS.editIcon }} )
+  const deletion = createEl({ tag:'img', classes: ['deleteIcon'], parentEl:iconsWrapper,attributes:{ 'src':ICONS.trashIcon }})
   return iconsWrapper
 }
 
@@ -60,6 +61,8 @@ export function createFile ( [ name, parentElem ] ) {
 }
 
 export function createInput ( parentElement, divClassName, InputClassName ) {
+                
+  // this.isCreatedInput = true
   const root = document.getElementById('root')
   const inputNameDiv = createEl( { tag:"div", parentEl: parentElement || root, classes:['inputNameDiv', divClassName] } )
   const form = createEl( { tag:'form', parentEl:inputNameDiv } )
