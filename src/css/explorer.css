@@ -32,6 +32,8 @@
     cursor: pointer;
 }
 .self {
+    display: flex;
+    justify-content: space-between;
     transition: var(--iconTransition);
 }
 .self, .content > li {
@@ -75,12 +77,12 @@
 }
 .inputNameDiv {
     width: 100%;
-    /* padding: 16px 0; */
     margin-left: 28px;
-    /* text-align: center; */
+}
+#root > .inputNameDiv {
+    margin-left: 0;
 }
 .inputNameInput {
-    width: 50%;
     border: 2px solid transparent;
     border-radius: 2px;
     padding: 4px;
@@ -99,6 +101,13 @@
 }
 #explorer:hover .iconsWrapper {
     opacity: 1;
+}
+.iconArrowWrapper {
+    display: flex;
+    align-items: center;
+}
+.iconArrowWrapper > span {
+    padding-top: 4px;
 }
 .iconArrowWrapper > img, .iconsWrapper > img, li > img {
     width: 30px;
