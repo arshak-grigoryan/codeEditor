@@ -63,8 +63,8 @@ export default class View {
                     }
                 }
                 if(className === 'fileIcon') {
-                    console.log( e.target.value, parentEl,'elem li' )
-                    createFile( [ e.target.value, parentEl ] )
+                    const li = createFile( [ e.target.value, parentEl ] )
+                    li.addEventListener('click', e => this.fileClick(e))
                 }
                 inputName.parentElement.parentElement.remove()
             }
@@ -120,6 +120,10 @@ export default class View {
         }
     }
 
+    fileClick = e => {
+        console.log(e.target)
+    }
+
     folderClick = e => {
         if (e.target.getAttribute('class') === 'inputNameInput') { return }
 
@@ -137,7 +141,6 @@ export default class View {
     }
 
     expandContent = (arrowIcon, thisFolder) => {
-        console.log(arrowIcon, thisFolder)
 
         const content = thisFolder.children[1]
 
