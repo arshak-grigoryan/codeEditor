@@ -42,7 +42,7 @@ export default class View {
 
                     const expandArrow = ul.children[0].children[0].children[0]
                     
-                    expandArrow.addEventListener('click', e => this.expandContent(e, ul))
+                    expandArrow.addEventListener('click', e => this.expandContent(e.target, ul))
 
                     if( !this.isProjectNow ) {
 
@@ -130,14 +130,14 @@ export default class View {
         }
     }
 
-    expandContent = (e, thisFolder) => {
+    expandContent = (arrowIcon, thisFolder) => {
         const content = thisFolder.children[1]
-        const arrow = e.target
+
         if(content.style.display !== 'none') {
-            arrow.style.transform = 'rotate(-90deg)'
+            arrowIcon.style.transform = 'rotate(-90deg)'
             content.style.display = 'none'
         } else {
-            arrow.style.transform = 'rotate(0deg)'
+            arrowIcon.style.transform = 'rotate(0deg)'
             content.style.display = 'block'
         }
     }
@@ -169,7 +169,11 @@ export default class View {
 
         if(this.last2ClickedElements.length > 2) {
             this.last2ClickedElements.shift()
-        } 
+        }
+
+        // at first expand this folder content and after it add input area
+        this.last2ClickedElements[0].parentElement.children[0].children[0].children[0].style.transform = 'rotate(0deg)'
+        this.last2ClickedElements[0].parentElement.children[1].style.display = 'block'
 
         this.addItem(this.last2ClickedElements[0], className)
     }
