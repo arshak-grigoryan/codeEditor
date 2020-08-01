@@ -35,6 +35,14 @@ const plugins = () => {
                 collapseWhitespace: isProd
             }
         }),
+        new CopyWebpackPlugin({
+            patterns: [
+                {
+                    from: path.resolve(__dirname, './public/favicon.ico'),
+                    to: path.resolve(__dirname, 'dist')
+                }
+            ]
+        }),
         new CleanWebpackPlugin(),
         new MiniCSSExtractPlugin({
             filename: filename('css'),
