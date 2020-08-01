@@ -45,7 +45,7 @@ export function creatFolder ( [ name, parentElem ] ) {
   const ul = createEl( { tag:'ul', classes:['folder'], parentEl:parentElem || root } )
   const self = createEl( { tag:'div', classes:['self'], parentEl:ul, attributes: { tabindex:'0' } } )
   const iconArrowWrapper = createEl( { tag:'div', classes:['iconArrowWrapper'], parentEl:self } )
-  const iconArrow = createEl( { tag:'img', classes:['iconArrow'], parentEl:iconArrowWrapper, attributes:{ 'src': ICONS.arrowRightIcon} } )
+  const iconArrow = createEl( { tag:'img', classes:['iconArrow'], parentEl:iconArrowWrapper, attributes:{ 'src': ICONS.expandArrowIcon } } )
   const iconimg = createEl( { tag:'img', parentEl:iconArrowWrapper, attributes: { src: ICONS.folderIcon } } )
   const span = createEl( { tag:'span', parentEl:iconArrowWrapper, content: name } )
   const content = createEl( { tag:'div', classes:['content'], parentEl:ul } )

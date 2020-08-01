@@ -16,7 +16,6 @@ export default class View {
         this.lastClickedFileOrFolder
     }   
 
-
     addCreateProjectButton () {
         const createFolderWrapper = createEl( { tag: 'div', classes: ['createFolderWrapper'], parentEl: this.root } )
         const createFolder = createEl( { tag: 'div', classes: ['createFolder'], parentEl: createFolderWrapper } )
@@ -40,6 +39,10 @@ export default class View {
                     const ul = creatFolder( [ e.target.value, parentElement ] )
 
                     ul.addEventListener('click', e => this.folderClick(e))
+
+                    const expandArrow = ul.children[0].children[0].children[0]
+                    
+                    expandArrow.addEventListener('click', e => this.expandContent(e, ul))
 
                     if( !this.isProjectNow ) {
 
@@ -124,6 +127,18 @@ export default class View {
 
         if(this.last2ClickedElements.length > 2) {
             this.last2ClickedElements.shift()
+        }
+    }
+
+    expandContent = (e, thisFolder) => {
+        const content = thisFolder.children[1]
+        const arrow = e.target
+        if(content.style.display !== 'none') {
+            arrow.style.transform = 'rotate(-90deg)'
+            content.style.display = 'none'
+        } else {
+            arrow.style.transform = 'rotate(0deg)'
+            content.style.display = 'block'
         }
     }
 
