@@ -76,7 +76,7 @@
     background-color: var(--buttonHoverColor);
 }
 .inputNameDiv {
-    width: 100%;
+    /* width: 100%; */
     margin-left: 28px;
 }
 #root > .inputNameDiv {
