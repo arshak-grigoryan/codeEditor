@@ -2,7 +2,13 @@
     width: 75%;
     min-width: var(--minWidthCodeArea);
     height: 100%;
-    background-color: var(--codeAreaColor);
+    /* background-color: var(--codeAreaColor); */
+    background-color: rgb(27,43,52);
+    background-image: url(../img/logo.png);
+    background-repeat: no-repeat;
+    background-position: center;
+    background-origin: content-box;
+    background-size: 50%;
 }
 .filesListWrapper {
     width: 100%;
@@ -19,18 +25,20 @@
     align-items: center;
     padding: 6px;
     background-color: var(--fileColor);
+    cursor: pointer;
+    border: 0.5px solid rgb(21,21,21);
 }  
 .filesList > li > img {
-    width: 30px;
-    height: 30px;
+    width: 27px;
+    height: 27px;
     padding: 4px;
 }  
 .filesList > li > span {
     display: inline-block;
-    line-height: 30px;
+    /* line-height: 27px; */
+    font-size: 15px;
     padding: 5px;
 } 
-
 .fileCode {
     width: 100%;
     height: calc(100% - 12px - 30px - 10px - 8px);

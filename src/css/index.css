@@ -1,6 +1,5 @@
 @import './reset.css';
 @import './variables.css';
-@import './menu.css';
 @import './explorer.css';
 @import './codeArea.css';
 
@@ -27,5 +26,5 @@ body {
     display: flex;
     flex-direction: row;
     width: 100%;
-    height: calc(100vh - 30px);
+    height: 100vh;
 }
