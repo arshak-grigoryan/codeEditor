@@ -16,18 +16,21 @@
 .filesList > li {
     display: flex;
     flex-direction: row;
+    align-items: center;
     padding: 6px;
     background-color: var(--fileColor);
 }  
-.filesList > li > i {
-    font-size: 14px;
-}
-.filesList > li > i,  
+.filesList > li > img {
+    width: 30px;
+    height: 30px;
+    padding: 4px;
+}  
 .filesList > li > span {
     display: inline-block;
     line-height: 30px;
     padding: 5px;
 } 
+
 .fileCode {
     width: 100%;
     height: calc(100% - 12px - 30px - 10px - 8px);
