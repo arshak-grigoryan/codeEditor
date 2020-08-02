@@ -2,12 +2,14 @@ import {
     createEl, 
     createInput, 
     creatFolder, 
-    createIconsWrapper, 
+    createIconsWrapper,
     createFile, 
-    findParent, 
+    findParent,
+    findParentInTab, 
     getIcon,
-    createListItem } from './viewHelpers'
-import { bind } from 'file-loader'
+    createListItem,
+    createTextArea } from './viewHelpers'
+import { ICONS } from '../../img/icons/icons'
 
 export default class View {
     constructor () {
@@ -15,21 +17,25 @@ export default class View {
         this.root = document.getElementById('root')
         this.isProjectNow = false
         this.last2ClickedElements = []
-        this.lastClickedElement = []
         this.lastClickedFileOrFolder
-        // this.fileListIds = []
         this.uniqueId = 0
+        this.lastClickedListInTab = null
+        this.isTabActive = false
+        this.filesList = []
+        this.last2ClickedTabElements = []
     }   
 
     addCreateProjectButton () {
         const createFolderWrapper = createEl( { tag: 'div', classes: ['createFolderWrapper'], parentEl: this.root } )
+        const text = createEl( { tag: 'div', classes: ['createFolderText'], parentEl: createFolderWrapper} )
+        createEl( { tag: 'span', parentEl: text, content:'You have not yet created folder.'} )
         const createFolder = createEl( { tag: 'div', classes: ['createFolder'], parentEl: createFolderWrapper } )
         createEl( { tag: 'span', parentEl: createFolder, content: 'Create Project' } )
         createFolder.addEventListener('click', () => this.addItem())
     }
 
     addItem (parentEl, className) {
-        // if parentEl is projectFolder reassign to it content
+        // if parentEl is projectFolder, reassign to it content
         const projectFolder = document.querySelector('#root > ul')
         if(parentEl && parentEl === projectFolder) {
             parentEl = projectFolder.children[1]
@@ -38,7 +44,7 @@ export default class View {
         if( !this.isProjectNow ) { document.querySelector('.createFolderWrapper').remove() }
 
         const inputName = createInput( parentEl )
-
+        inputName.focus()
         inputName.addEventListener('keydown', e => {
 
             if(e.keyCode === 13) { 
@@ -49,13 +55,6 @@ export default class View {
                     const ul = creatFolder( [ e.target.value, parentEl ] )
 
                     ul.addEventListener('click', e => this.folderClick(e))
-                        ul.addEventListener('click', e => {
-                        this.lastClickedElement.push(ul)
-                        if(this.lastClickedElement.length > 1) {
-                            this.lastClickedElement.shift()
-                        }
-                        
-                    })
 
                     const expandArrow = ul.children[0].children[0].children[0]
                     
@@ -80,16 +79,9 @@ export default class View {
                     const id = ++this.uniqueId
 
                     const li = createFile( [ e.target.value, parentEl, id ] )
-                    
+                
                     li.addEventListener('click', e => this.fileClick(e))
-                    li.addEventListener('dblclick', e => this.fileaDblClick(e))
-                        // const numberId =  li.getAttribute('elId');
-                    //     li.addEventListener("click", e => {
-                    //     this.lastClickedElement.push(li)
-                    //     if(this.lastClickedElement.length > 1) {
-                    //         this.lastClickedElement.shift()
-                    //     }
-                    // })
+
                     this.fileClick(li)
                 }
                 inputName.parentElement.parentElement.remove()
@@ -98,19 +90,19 @@ export default class View {
     }
     
     editIconClick = e => {
+        if(this.isInputNow()) { return }
+
         if (e.target.getAttribute('class') === 'inputNameInput') { return undefined }
 
         const { currentThis, className, name} = findParent(e.target)
 
-        if(/* currentThis && (*/ className === 'folder' || className === 'file' /* || className === 'fileIcon' || className === 'folderIcon')*/ ) {
+        if( currentThis && ( className === 'folder' || className === 'file' || className === 'fileIcon' || className === 'folderIcon') ) {
             this.last2ClickedElements.push(currentThis)
-            console.log("im uzstsy", currentThis)
         }  
 
         if(this.last2ClickedElements.length > 2) {
             this.last2ClickedElements.shift()
         } 
-
         if(this.lastClickedFileOrFolder && this.lastClickedFileOrFolder.getAttribute('class') === 'folder') {
             const thisElemName = this.lastClickedFileOrFolder.children[0].children[0].children[2].textContent
             console.log(thisElemName)
@@ -127,7 +119,7 @@ export default class View {
                 }
             })                                
         }
-        if(this.lastClickedFileOrFolder.getAttribute('class') === 'file') {            
+        if(this.lastClickedFileOrFolder && this.lastClickedFileOrFolder.getAttribute('class') === 'file') {            
             const thisElemName = this.lastClickedFileOrFolder.children[1].textContent
             console.log(thisElemName)
             this.lastClickedFileOrFolder.children[1].remove()
@@ -149,7 +141,6 @@ export default class View {
 
     isFileExcist = (id) => {
         const filesList = [...document.querySelector('.filesList').children]
-        console.log(filesList)
         const ids = []
         filesList.forEach(val => {
             ids.push(val.dataset.id)
@@ -172,17 +163,55 @@ export default class View {
             id = e.dataset.id
         }
         if( !this.isFileExcist(id) ){
-            const file = createListItem(name,id)
+            const file = createListItem(name, id)
+            file.addEventListener('click', e => this.autoOpen(e))
             file.children[2].addEventListener('click', e => this.closeItem(e))
+            this.autoOpen(file)
         }     
     }
 
-    closeItem = e => {
-        e.target.parentElement.remove()
+    autoOpen = e => { // e can be event or this li tab element
+        if(e instanceof UIEvent) {
+            if(e.target.classList.contains('petqiVrov')) { return }
+            const li = findParentInTab(e.target)
+            this.lastClickedListInTab.classList.remove('activeTab')
+            this.lastClickedListInTab = li
+            li.classList.add('activeTab')
+            // createTextArea()
+        }
+         else {
+            if(this.isTabActive) {
+                this.lastClickedListInTab.classList.remove('activeTab')
+                this.lastClickedListInTab = e
+                e.classList.add('activeTab')
+            } else {
+                this.last2ClickedTabElements.push(e)
+                this.lastClickedListInTab = e
+                this.lastClickedListInTab.classList.add('activeTab')
+                this.isTabActive = true
+                createTextArea().focus()
+            }
+        }
     }
 
-    fileaDblClick = e => {
-
+    closeItem = e => {
+        const next = e.target.parentElement.nextElementSibling
+        const previous = e.target.parentElement.previousElementSibling
+        e.target.parentElement.remove()
+        const tabsCollection = document.querySelectorAll('.listFile')
+        if (tabsCollection.length === 0) { 
+            this.isTabActive = false
+            this.lastClickedListInTab = null
+        }
+        else { 
+            if(next) {
+                this.autoOpen(next)
+            } else if(previous) {
+                this.autoOpen(previous)
+            } else {
+                return
+            }
+        }
     }
 
     folderClick = e => {
@@ -203,44 +232,45 @@ export default class View {
 
     deleteIconClick = e => {
         const {className} = findParent(e.target)
-        if((className === 'folder') || (className === 'file')) { 
-             this.lastClickedFileOrFolder.remove()
-        } 
-    // else if(className === 'file') { 
-    //         this.lastClickedElement[0].remove();
-    //   }
-
-        // const thisElemName = this.lastClickedFileOrFolder.children[0].children[0].children[2].textContent
-        // console.log('thisElemName: ', thisElemName);
-        // console.log("this.lastClickedElement :",this.lastClickedElement);
+        if(className === 'folder' || className === 'file') { 
+             this.lastClickedFileOrFolder.remove() // bug error for projectfolder
+        }
     }
 
     expandContent = (arrowIcon, thisFolder) => {
 
         const content = thisFolder.children[1]
+        const folderIcon = thisFolder.children[0].children[0].children[1]
 
         if(content.style.display !== 'none') {
             arrowIcon.style.transform = 'rotate(-90deg)'
             content.style.display = 'none'
+            folderIcon.src = ICONS.folderIcon
         } else {
             arrowIcon.style.transform = 'rotate(0deg)'
             content.style.display = 'block'
+            folderIcon.src = ICONS.folderOpenIcon
         }
     }
 
     autoExpandContent = () => {
         const projectFolder = document.querySelector('#root > ul')
         const thisFolder = this.last2ClickedElements[0]
+
         if(projectFolder === thisFolder) {
             projectFolder.children[0].children[0].children[0].style.transform = 'rotate(0deg)'
             projectFolder.children[1].style.display = 'block' 
+            projectFolder.children[0].children[0].children[1].src = ICONS.folderOpenIcon
         } else {
             thisFolder.parentElement.children[0].children[0].children[0].style.transform = 'rotate(0deg)'
-            thisFolder.parentElement.children[1].style.display = 'block'            
+            thisFolder.parentElement.children[1].style.display = 'block' 
+            thisFolder.parentElement.children[0].children[0].children[1].src = ICONS.folderOpenIcon          
         }
     }
 
     fileIconClick = e => {
+        if(this.isInputNow()) { return }
+
         if (e.target.getAttribute('class') === 'inputNameInput') { return }
 
         const { currentThis, className, name, bindEl} = findParent(e.target)
@@ -260,6 +290,8 @@ export default class View {
     }
 
     folderIconClick = e => {
+        if(this.isInputNow()) { return }
+
         if (e.target.getAttribute('class') === 'inputNameInput') { return }
 
         const { currentThis, className } = findParent(e.target)
@@ -276,6 +308,13 @@ export default class View {
         this.autoExpandContent()
 
         this.addItem(this.last2ClickedElements[0], className)
+    }
+
+    isInputNow = () => {
+        const input = document.querySelectorAll('#root input')
+        if(input.length !== 0) {
+            return true
+        }
     }
 
     bindOnCreateFolderInModel (cb) {
