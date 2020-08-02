@@ -9,6 +9,7 @@ import css3 from './css3.png'
 import js from './js.png'
 import edit from './edit.png'
 import trash from './trash.png'
+import close from './close.png'
 
 export const ICONS = {
     folderIcon: folder,
@@ -21,5 +22,6 @@ export const ICONS = {
     css3Icon: css3,
     jsIcon: js,
     editIcon: edit,
-    trashIcon: trash    
+    trashIcon: trash,
+    closeIcon: close    
 }
