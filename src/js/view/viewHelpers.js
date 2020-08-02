@@ -47,7 +47,7 @@ export function creatFolder ( [ name, parentElem ] ) {
   const self = createEl( { tag:'div', classes:['self'], parentEl:ul, attributes: { tabindex:'0' } } )
   const iconArrowWrapper = createEl( { tag:'div', classes:['iconArrowWrapper'], parentEl:self } )
   const iconArrow = createEl( { tag:'img', classes:['iconArrow'], parentEl:iconArrowWrapper, attributes:{ 'src': ICONS.expandArrowIcon } } )
-  const iconimg = createEl( { tag:'img', parentEl:iconArrowWrapper, attributes: { src: ICONS.folderIcon } } )
+  parentElem ? createEl( { tag:'img', parentEl:iconArrowWrapper, attributes: { src: ICONS.folderOpenIcon } } ) : null
   const span = createEl( { tag:'span', parentEl:iconArrowWrapper, content: name } )
   const content = createEl( { tag:'div', classes:['content'], parentEl:ul } )
   return ul
@@ -64,7 +64,7 @@ export function createInput ( parentElement, divClassName, InputClassName ) {
   const root = document.getElementById('root')
   const inputNameDiv = createEl( { tag:"div", parentEl: parentElement || root, classes:['inputNameDiv', divClassName] } )
   const form = createEl( { tag:'form', parentEl:inputNameDiv } )
-  const inputName = createEl( { tag:'input', parentEl:form, classes: ['inputNameInput', InputClassName], attributes: { 'autofocus': true } } )
+  const inputName = createEl( { tag:'input', parentEl:form, classes: ['inputNameInput', InputClassName] } )
   return inputName
 }
 
@@ -72,7 +72,7 @@ export function findParent (el) {
   const attrClass = el.getAttribute('class')
   if (attrClass === 'folder') {
     if(el.parentElement.getAttribute('id') === 'root') {
-      return { currentThis:el, className:attrClass, name:el.children[0].children[0].children[2].textContent, bindEl:el }
+      return { currentThis:el, className:attrClass, name:el.children[0].children[0].children[1].textContent, bindEl:el }
     } else {
       return { currentThis:el.children[1], className:attrClass, name:el.children[0].children[0].children[2].textContent, bindEl:el }
     }
@@ -91,11 +91,28 @@ export function findParent (el) {
   }
 }
 
+export function findParentInTab (el) {
+  console.log(el)
+  const attrClass = el.classList.contains('listFile')
+  if(attrClass) {
+    return el
+  } else {
+    return findParentInTab(el.parentElement)
+  }
+}
+
 export function createListItem (name, id) {
   const parentElem = document.querySelector('.filesList')
   const li = createEl( { tag:'li', classes:['listFile'], parentEl:parentElem, attributes: { 'data-id':id } } )
   const ext = createEl( { tag:'img', parentEl:li, attributes: { src: getIcon(name)} } )
   const span = createEl( { tag:'span', parentEl:li, content:name } )
-  const close = createEl( { tag:'img', parentEl:li, attributes: { src: ICONS.closeIcon} } )
+  const close = createEl( { tag:'img', parentEl:li,classes: ['petqiVrov'], attributes: { src: ICONS.closeIcon} } )
   return li
+}
+
+export function createTextArea() {
+  const fileCode = document.querySelector('.fileCode')
+  const form = createEl( { tag:'form', parentEl:fileCode } )
+  const textArea = createEl( { tag:'textarea', parentEl:form } )
+  return textArea
 }
