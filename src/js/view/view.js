@@ -23,6 +23,7 @@ export default class View {
         this.isTabActive = false
         this.filesList = []
         this.last2ClickedTabElements = []
+        this.codeAreaData = {}
     }   
 
     addCreateProjectButton () {
@@ -177,21 +178,45 @@ export default class View {
             this.lastClickedListInTab.classList.remove('activeTab')
             this.lastClickedListInTab = li
             li.classList.add('activeTab')
-            // createTextArea()
-        }
-         else {
+
+            const id = li.dataset.id
+            const textArea = document.querySelector('.fileCode .textArea')
+            textArea.value = this.codeAreaData[`${id}`]
+            console.log('mamamia', this.codeAreaData[`${id}`])
+        } else {
             if(this.isTabActive) {
                 this.lastClickedListInTab.classList.remove('activeTab')
                 this.lastClickedListInTab = e
                 e.classList.add('activeTab')
+
+                const textArea = document.querySelector('.fileCode .textArea')
+                textArea.focus()
+                const id = e.dataset.id
+                if(typeof this.codeAreaData[`${id}`] === 'string') {
+                    textArea.value = this.codeAreaData[`${id}`] 
+                } else {
+                    textArea.value = ''
+                }
             } else {
                 this.last2ClickedTabElements.push(e)
                 this.lastClickedListInTab = e
                 this.lastClickedListInTab.classList.add('activeTab')
                 this.isTabActive = true
-                createTextArea().focus()
+
+                const id = e.dataset.id
+                this.codeAreaData[`${id}`] = ''
+
+                const textArea = createTextArea()
+                textArea.focus()
+                textArea.addEventListener('keydown', e => this.codeAutoSave(e))
             }
         }
+    }
+
+    codeAutoSave = e => {
+        const activeTab = document.querySelector('.activeTab')
+        this.codeAreaData[`${activeTab.dataset.id}`] = e.target.value
+        console.log(this.codeAreaData)
     }
 
     closeItem = e => {
@@ -202,6 +227,7 @@ export default class View {
         if (tabsCollection.length === 0) { 
             this.isTabActive = false
             this.lastClickedListInTab = null
+            document.querySelector('.fileCode form').remove()
         }
         else { 
             if(next) {
