@@ -5,7 +5,9 @@ import {
     createIconsWrapper, 
     createFile, 
     findParent, 
-    getIcon } from './viewHelpers'
+    getIcon,
+    createListItem } from './viewHelpers'
+import { bind } from 'file-loader'
 
 export default class View {
     constructor () {
@@ -15,7 +17,8 @@ export default class View {
         this.last2ClickedElements = []
         this.lastClickedElement = []
         this.lastClickedFileOrFolder
-        
+        // this.fileListIds = []
+        this.uniqueId = 0
     }   
 
     addCreateProjectButton () {
@@ -74,17 +77,21 @@ export default class View {
                     }
                 }
                 if(className === 'fileIcon') {
-                    const li = createFile( [ e.target.value, parentEl ] )
+                    const id = ++this.uniqueId
+
+                    const li = createFile( [ e.target.value, parentEl, id ] )
+                    
                     li.addEventListener('click', e => this.fileClick(e))
+                    li.addEventListener('dblclick', e => this.fileaDblClick(e))
                         // const numberId =  li.getAttribute('elId');
-                        li.addEventListener("click", e => {
-                        this.lastClickedElement.push(li)
-                        if(this.lastClickedElement.length > 1) {
-                            this.lastClickedElement.shift()
-                        }
-                    })
+                    //     li.addEventListener("click", e => {
+                    //     this.lastClickedElement.push(li)
+                    //     if(this.lastClickedElement.length > 1) {
+                    //         this.lastClickedElement.shift()
+                    //     }
+                    // })
+                    this.fileClick(li)
                 }
-                
                 inputName.parentElement.parentElement.remove()
             }
         })
@@ -140,8 +147,42 @@ export default class View {
         }
     }
 
-    fileClick = e => {
-        console.log(e.target)
+    isFileExcist = (id) => {
+        const filesList = [...document.querySelector('.filesList').children]
+        console.log(filesList)
+        const ids = []
+        filesList.forEach(val => {
+            ids.push(val.dataset.id)
+        })
+        for (const val of ids) {
+            if(val === id) {
+                return true
+            }
+        }
+    }
+
+    fileClick = e => { // e can be event or this li element
+        let name, id
+        if(e instanceof UIEvent) {
+            const { bindEl } = findParent(e.target) 
+            name = bindEl.children[1].textContent
+            id = bindEl.dataset.id                              
+        } else  {
+            name = e.children[1].textContent
+            id = e.dataset.id
+        }
+        if( !this.isFileExcist(id) ){
+            const file = createListItem(name,id)
+            file.children[2].addEventListener('click', e => this.closeItem(e))
+        }     
+    }
+
+    closeItem = e => {
+        e.target.parentElement.remove()
+    }
+
+    fileaDblClick = e => {
+
     }
 
     folderClick = e => {
