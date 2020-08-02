@@ -53,16 +53,14 @@ export function creatFolder ( [ name, parentElem ] ) {
   return ul
 }
 
-export function createFile ( [ name, parentElem ] ) {
-  const li = createEl( { tag:'li', classes:['file'], parentEl:parentElem, attributes: { tabindex:'0' } } )
+export function createFile ( [ name, parentElem, id ] ) {
+  const li = createEl( { tag:'li', classes:['file'], parentEl:parentElem, attributes: { tabindex:'0', 'data-id':id } } )
   const iconimg = createEl( { tag:'img', parentEl:li, attributes: { src: getIcon(name)} } )
   const span = createEl( { tag:'span', parentEl:li, content: name } )
   return li
 }
 
 export function createInput ( parentElement, divClassName, InputClassName ) {
-                
-  // this.isCreatedInput = true
   const root = document.getElementById('root')
   const inputNameDiv = createEl( { tag:"div", parentEl: parentElement || root, classes:['inputNameDiv', divClassName] } )
   const form = createEl( { tag:'form', parentEl:inputNameDiv } )
@@ -91,4 +89,13 @@ export function findParent (el) {
   } else {
     return findParent (el.parentElement)
   }
+}
+
+export function createListItem (name, id) {
+  const parentElem = document.querySelector('.filesList')
+  const li = createEl( { tag:'li', classes:['listFile'], parentEl:parentElem, attributes: { 'data-id':id } } )
+  const ext = createEl( { tag:'img', parentEl:li, attributes: { src: getIcon(name)} } )
+  const span = createEl( { tag:'span', parentEl:li, content:name } )
+  const close = createEl( { tag:'img', parentEl:li, attributes: { src: ICONS.closeIcon} } )
+  return li
 }
