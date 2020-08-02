@@ -3,7 +3,7 @@
     min-width: var(--minWidthCodeArea);
     height: 100%;
     /* background-color: var(--codeAreaColor); */
-    background-color: rgb(27,43,52);
+    background-color: var(--codeAreaBGColor);
     background-image: url(../img/logo.png);
     background-repeat: no-repeat;
     background-position: center;
@@ -36,13 +36,13 @@
 }  
 .filesList > li > span {
     display: inline-block;
-    /* line-height: 27px; */
+    line-height: 27px;
     font-size: 15px;
-    padding: 5px;
+    padding: 4px;
 } 
 .fileCode {
     width: 100%;
-    height: calc(100% - 12px - 30px - 10px - 8px);
+    height: calc(100% - 35px - 12px);
 }
 .fileCode > ul {
     width: 100%;
@@ -60,9 +60,12 @@ form {
 }
 textarea {
     width: 100%;
-    height: calc(100% - 2px);
+    height: calc(100%);
     padding: 16px;
-    background-color: var(--textAreaColor);
+    font-size: 15px;
+    border: none;
+    background-color: var(--codeAreaBGColor);
+    color: var(--grey);
     resize: none;
     outline: none;
 }
