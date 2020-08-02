@@ -92,13 +92,9 @@ export function findParent (el) {
 }
 
 export function findParentInTab (el) {
-  console.log(el)
   const attrClass = el.classList.contains('listFile')
-  if(attrClass) {
-    return el
-  } else {
-    return findParentInTab(el.parentElement)
-  }
+  if(attrClass) { return el } 
+  else { return findParentInTab(el.parentElement) }
 }
 
 export function createListItem (name, id) {
@@ -113,6 +109,6 @@ export function createListItem (name, id) {
 export function createTextArea() {
   const fileCode = document.querySelector('.fileCode')
   const form = createEl( { tag:'form', parentEl:fileCode } )
-  const textArea = createEl( { tag:'textarea', parentEl:form } )
+  const textArea = createEl( { tag:'textarea', classes: ['textArea'], parentEl:form } )
   return textArea
 }
