@@ -31,6 +31,16 @@ export function createEl( { tag, parentEl, classes, attributes, content } ) {
   return el
 }
 
+export function createProjectButton () {
+  const root = document.getElementById('root')
+  const createFolderWrapper = createEl( { tag: 'div', classes: ['createFolderWrapper'], parentEl: root } )
+  const text = createEl( { tag: 'div', classes: ['createFolderText'], parentEl: createFolderWrapper} )
+  createEl( { tag: 'span', parentEl: text, content:'You have not yet created folder.'} )
+  const createFolder = createEl( { tag: 'div', classes: ['createFolder'], parentEl: createFolderWrapper } )
+  createEl( { tag: 'span', parentEl: createFolder, content: 'Create Project' } )
+  return createFolder
+}
+
 export function createIconsWrapper () {
   const self = document.querySelector('#root > ul > .self')
   const iconsWrapper = createEl( { tag:'div', classes:['iconsWrapper'], parentEl:self } )
