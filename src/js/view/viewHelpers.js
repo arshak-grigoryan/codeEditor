@@ -74,11 +74,12 @@ export function createInput ( parentElement, divClassName, InputClassName ) {
   const root = document.getElementById('root')
   const inputNameDiv = createEl( { tag:"div", parentEl: parentElement || root, classes:['inputNameDiv', divClassName] } )
   const form = createEl( { tag:'form', parentEl:inputNameDiv } )
-  const inputName = createEl( { tag:'input', parentEl:form, classes: ['inputNameInput', InputClassName] } )
+  const inputName = createEl( { tag:'input', parentEl:form, classes: ['inputNameInput', InputClassName], attributes: { type:'text', required:'true' } } )
   return inputName
 }
 
 export function findParent (el) {
+  if(el === null ) { return }
   const attrClass = el.getAttribute('class')
   if (attrClass === 'folder') {
     if(el.parentElement.getAttribute('id') === 'root') {
