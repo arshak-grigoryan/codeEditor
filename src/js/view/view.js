@@ -32,6 +32,7 @@ export default class View {
     }
 
     addItem (parentEl, className) {
+
         // if parentEl is projectFolder, reassign to it content
         const projectFolder = document.querySelector('#root > ul')
         if(parentEl && parentEl === projectFolder) {
@@ -43,10 +44,13 @@ export default class View {
         const inputName = createInput( parentEl )
         inputName.focus()
         inputName.addEventListener('keydown', e => {
-
+            e.target.style.border = '2px solid var(--buttonHoverColor)'
             if(e.keyCode === 13) { 
+                if(e.target.value === '') {
+                    e.target.style.border = '2px solid red'
+                    return 
+                }
                 event.preventDefault()
-
                 if(className === 'folderIcon' || !this.isProjectNow) {
 
                     const ul = creatFolder( [ e.target.value, parentEl ] )
@@ -105,8 +109,11 @@ export default class View {
             this.lastClickedFileOrFolder.children[0].children[0].children[2].remove()
             const inputName = createInput( this.lastClickedFileOrFolder.children[0].children[0], 'editDiv', 'editInput'  )
             inputName.value = thisElemName
+            // inputName.focus()   bug error
+
             inputName.addEventListener('keydown', e => {
                 if(e.keyCode === 13) { 
+                    debugger
                     event.preventDefault()
                     let name = e.target.value
                     const span = createEl( { tag: 'span', parentEl:this.lastClickedFileOrFolder.children[0].children[0], content:name } )
@@ -119,6 +126,7 @@ export default class View {
             this.lastClickedFileOrFolder.children[1].remove()
             const inputName = createInput( this.lastClickedFileOrFolder, 'editDiv', 'editInput'  )
             inputName.value = thisElemName
+            // inputName.focus() bug error
             inputName.addEventListener('keydown', e => {
                 if(e.keyCode === 13) { 
                     event.preventDefault()
@@ -164,7 +172,7 @@ export default class View {
             if( !this.isFileExcist(id) ){
                 const file = createListItem(name, id)
                 file.addEventListener('click', e => this.autoOpen(e))
-                file.children[2].addEventListener('click', e => this.closeItem(e))
+                file.children[2].addEventListener('click', e => this.closeItem(e.target))
                 this.autoOpen(file)
             } else {
                 const filesList = document.querySelectorAll('.listFile')
@@ -180,7 +188,7 @@ export default class View {
             if( !this.isFileExcist(id) ){
                 const file = createListItem(name, id)
                 file.addEventListener('click', e => this.autoOpen(e))
-                file.children[2].addEventListener('click', e => this.closeItem(e))
+                file.children[2].addEventListener('click', e => this.closeItem(e.target))
                 this.autoOpen(file)
             }                 
         }
@@ -188,7 +196,6 @@ export default class View {
     }
 
     autoOpen = e => { // e can be event or this li(file in tabs menu) element
-        // debugger
         if(e instanceof MouseEvent) {
             if(e.target.classList.contains('petqiVrov')) { return }
             const li = findParentInTab(e.target)
@@ -201,14 +208,14 @@ export default class View {
             textArea.value = this.codeAreaData[`${id}`]
             textArea.focus()
         } else {
-            // here e is a li in tab
+            // here e is a li
             if(this.isTabActive) {
                 this.lastClickedListInTab.classList.remove('activeTab')
                 this.lastClickedListInTab = e
                 e.classList.add('activeTab')
 
                 const textArea = document.querySelector('.fileCode .textArea')
-                textArea.focus()
+                // textArea.focus() comment cause bug error inputname can't be focuses
                 const id = e.dataset.id
                 if(typeof this.codeAreaData[`${id}`] === 'string') {
                     textArea.value = this.codeAreaData[`${id}`] 
@@ -238,10 +245,10 @@ export default class View {
         // console.log(this.codeAreaData)
     }
 
-    closeItem = e => {
-        const next = e.target.parentElement.nextElementSibling
-        const previous = e.target.parentElement.previousElementSibling
-        e.target.parentElement.remove()
+    closeItem = target => {
+        const next = target.parentElement.nextElementSibling
+        const previous = target.parentElement.previousElementSibling
+        target.parentElement.remove()
         const tabsCollection = document.querySelectorAll('.listFile')
         if (tabsCollection.length === 0) { 
             this.isTabActive = false
@@ -260,6 +267,22 @@ export default class View {
     }
 
     folderClick = e => {
+        const projectFolder = document.querySelector('#root > ul')
+        if(document.querySelector('#root > ul').classList.contains('petqiVrov2')) { 
+            this.folderNestedFilesDelete(projectFolder) // this is focus this deletion works after closeItem function on project folder click this does not be here but it is that for historical reasons 
+            this.isProjectNow = false
+            this.last2ClickedElements = []
+            this.lastClickedFileOrFolder
+            this.uniqueId = 0
+            this.lastClickedListInTab = null
+            this.isTabActive = false
+            this.filesList = []
+            this.last2ClickedTabElements = []
+            this.codeAreaData = {}
+            this.addCreateProjectButton()
+            return
+        }
+
         if (e.target.getAttribute('class') === 'inputNameInput') { return }
 
         const { currentThis, className, name, bindEl} = findParent(e.target)
@@ -276,10 +299,47 @@ export default class View {
     }
 
     deleteIconClick = e => {
-        const {className} = findParent(e.target)
-        if(className === 'folder' || className === 'file') { 
-             this.lastClickedFileOrFolder.remove() // bug error for projectfolder
+        const projectFolder = document.querySelector('#root > .folder')
+        if(e.target.classList.contains('deleteIcon')) {
+            projectFolder.classList.add('petqiVrov2')
+            // this.folderNestedFilesDelete(projectFolder)
+            return    
         }
+        const { className } = findParent(e.target)
+        if(className === 'folder') {
+            this.folderNestedFilesDelete(this.lastClickedFileOrFolder)
+        }
+        else if(className === 'file') { 
+            const id = this.lastClickedFileOrFolder.dataset.id
+            this.lastClickedFileOrFolder.remove() // bug error for projectfolder
+             
+            const filesList = document.querySelectorAll('.listFile')
+            filesList.forEach(el => {
+                if (id === el.dataset.id) {
+                    this.closeItem(el.children[2])
+                    // this.codeAreaData[`${id}`] also can be deleted
+                }
+            })
+        }
+    }
+
+    folderNestedFilesDelete = folder => {
+        console.log(folder)
+        folder.classList.add('thisFolder')
+        const allNestedFiles = document.querySelectorAll(`.thisFolder li`)
+        const allNestedFilesIds = [] 
+        allNestedFiles.forEach(el => {
+            allNestedFilesIds.push(el.dataset.id)
+        })
+        const filesListInTab = document.querySelectorAll('.filesList > li')
+        allNestedFilesIds.forEach(val => {
+            filesListInTab.forEach(el => {
+                if (val === el.dataset.id) {
+                    this.closeItem(el.children[2])
+                }                    
+            })                
+        })
+        folder.remove()
     }
 
     expandContent = (arrowIcon, thisFolder) => {
