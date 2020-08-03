@@ -215,7 +215,7 @@ export default class View {
                 e.classList.add('activeTab')
 
                 const textArea = document.querySelector('.fileCode .textArea')
-                // textArea.focus() comment cause bug error inputname can't be focuses
+                // textArea.focus() cause bug error inputname can't be focuses
                 const id = e.dataset.id
                 if(typeof this.codeAreaData[`${id}`] === 'string') {
                     textArea.value = this.codeAreaData[`${id}`] 

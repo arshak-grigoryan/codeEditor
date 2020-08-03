@@ -6,6 +6,7 @@ const CopyWebpackPlugin = require('copy-webpack-plugin')
 const MiniCSSExtractPlugin = require('mini-css-extract-plugin')
 const OptimizeCSSAssetsWebpackPlugin = require('optimize-css-assets-webpack-plugin')
 const TerserWebpackPlugin = require('terser-webpack-plugin')
+const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer')
 
 const isDev = process.env.NODE_ENV === 'development'
 const isProd = process.env.NODE_ENV === 'production'
@@ -48,6 +49,9 @@ const plugins = () => {
             filename: filename('css'),
         })
     ]
+    if (isProd) {
+        base.push(new BundleAnalyzerPlugin())
+    }
     return base
 }
 
@@ -96,7 +100,7 @@ module.exports = {
             }
         ]
     },
-    devtool: isDev ? 'source-map' : '',
+    devtool: 'source-map',
     devServer: {
         open: true
     }
