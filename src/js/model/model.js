@@ -16,7 +16,7 @@ export default class Model {
     addProject (folderName) {
         const folder = new Folder( { name:folderName } )
         this.project = folder
-        console.log(this.project)
+        // console.log(this.project)
     }
 
 } 
