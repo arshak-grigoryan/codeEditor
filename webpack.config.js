@@ -80,14 +80,6 @@ module.exports = {
                 exclude: /(node_modules|bower_components)/,
                 loader: {
                     loader: "babel-loader",
-                    options: {
-                        presets: [
-                            '@babel/preset-env'
-                        ],
-                        plugins: [
-                            '@babel/plugin-proposal-class-properties'
-                        ]
-                    }
                 }
             },
             {
