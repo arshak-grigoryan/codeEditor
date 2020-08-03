@@ -2,12 +2,14 @@
 
 ## Usage
 
+At first you need insatlled Nodejs  
+You can find Nodejs here https://nodejs.org/en/
+
 ### Installation
 Install the dependencies
 ```sh
 $ npm install
 ```
-
 ### Serve
 To serve in the browser  - Runs webpack-dev-server
 ```sh
