@@ -1,5 +1,6 @@
 import { 
     createEl, 
+    createProjectButton,
     createInput, 
     creatFolder, 
     createIconsWrapper,
@@ -14,7 +15,6 @@ import { ICONS } from '../../img/icons/icons'
 export default class View {
     constructor () {
         this.app = document.getElementById('app')
-        this.root = document.getElementById('root')
         this.isProjectNow = false
         this.last2ClickedElements = []
         this.lastClickedFileOrFolder
@@ -27,11 +27,7 @@ export default class View {
     }   
 
     addCreateProjectButton () {
-        const createFolderWrapper = createEl( { tag: 'div', classes: ['createFolderWrapper'], parentEl: this.root } )
-        const text = createEl( { tag: 'div', classes: ['createFolderText'], parentEl: createFolderWrapper} )
-        createEl( { tag: 'span', parentEl: text, content:'You have not yet created folder.'} )
-        const createFolder = createEl( { tag: 'div', classes: ['createFolder'], parentEl: createFolderWrapper } )
-        createEl( { tag: 'span', parentEl: createFolder, content: 'Create Project' } )
+        const createFolder = createProjectButton()
         createFolder.addEventListener('click', () => this.addItem())
     }
 
@@ -106,11 +102,9 @@ export default class View {
         } 
         if(this.lastClickedFileOrFolder && this.lastClickedFileOrFolder.getAttribute('class') === 'folder') {
             const thisElemName = this.lastClickedFileOrFolder.children[0].children[0].children[2].textContent
-            console.log(thisElemName)
             this.lastClickedFileOrFolder.children[0].children[0].children[2].remove()
             const inputName = createInput( this.lastClickedFileOrFolder.children[0].children[0], 'editDiv', 'editInput'  )
             inputName.value = thisElemName
-            console.log(inputName)
             inputName.addEventListener('keydown', e => {
                 if(e.keyCode === 13) { 
                     event.preventDefault()
@@ -122,11 +116,9 @@ export default class View {
         }
         if(this.lastClickedFileOrFolder && this.lastClickedFileOrFolder.getAttribute('class') === 'file') {            
             const thisElemName = this.lastClickedFileOrFolder.children[1].textContent
-            console.log(thisElemName)
             this.lastClickedFileOrFolder.children[1].remove()
             const inputName = createInput( this.lastClickedFileOrFolder, 'editDiv', 'editInput'  )
             inputName.value = thisElemName
-            console.log(inputName)
             inputName.addEventListener('keydown', e => {
                 if(e.keyCode === 13) { 
                     event.preventDefault()
@@ -134,6 +126,16 @@ export default class View {
                     this.lastClickedFileOrFolder.children[0].remove()
                     const iconimg = createEl( { tag:'img', parentEl:this.lastClickedFileOrFolder, attributes: { src: getIcon(name)} } )
                     const span = createEl( { tag: 'span', parentEl:this.lastClickedFileOrFolder, content:name } )
+
+                    const id = this.lastClickedFileOrFolder.dataset.id
+                    const filesList = document.querySelectorAll('.listFile')
+                    filesList.forEach(el => {
+                        if(id === el.dataset.id) {
+                            el.children[0].src = getIcon(name)
+                            el.children[1].textContent = name
+                        }
+                    })
+
                     inputName.parentElement.parentElement.remove()
                 }
             })    
@@ -153,26 +155,41 @@ export default class View {
         }
     }
 
-    fileClick = e => { // e can be event or this li element
+    fileClick = e => { // e can be event or this li(file in explorer) element
         let name, id
-        if(e instanceof UIEvent) {
+        if(e instanceof MouseEvent) {
             const { bindEl } = findParent(e.target) 
             name = bindEl.children[1].textContent
-            id = bindEl.dataset.id                              
+            id = bindEl.dataset.id      
+            if( !this.isFileExcist(id) ){
+                const file = createListItem(name, id)
+                file.addEventListener('click', e => this.autoOpen(e))
+                file.children[2].addEventListener('click', e => this.closeItem(e))
+                this.autoOpen(file)
+            } else {
+                const filesList = document.querySelectorAll('.listFile')
+                filesList.forEach(el => {
+                    if(id === el.dataset.id) {
+                        this.autoOpen(el)
+                    }
+                })
+            }
         } else  {
             name = e.children[1].textContent
             id = e.dataset.id
+            if( !this.isFileExcist(id) ){
+                const file = createListItem(name, id)
+                file.addEventListener('click', e => this.autoOpen(e))
+                file.children[2].addEventListener('click', e => this.closeItem(e))
+                this.autoOpen(file)
+            }                 
         }
-        if( !this.isFileExcist(id) ){
-            const file = createListItem(name, id)
-            file.addEventListener('click', e => this.autoOpen(e))
-            file.children[2].addEventListener('click', e => this.closeItem(e))
-            this.autoOpen(file)
-        }     
+
     }
 
-    autoOpen = e => { // e can be event or this li tab element
-        if(e instanceof UIEvent) {
+    autoOpen = e => { // e can be event or this li(file in tabs menu) element
+        // debugger
+        if(e instanceof MouseEvent) {
             if(e.target.classList.contains('petqiVrov')) { return }
             const li = findParentInTab(e.target)
             this.lastClickedListInTab.classList.remove('activeTab')
@@ -182,8 +199,9 @@ export default class View {
             const id = li.dataset.id
             const textArea = document.querySelector('.fileCode .textArea')
             textArea.value = this.codeAreaData[`${id}`]
-            console.log('mamamia', this.codeAreaData[`${id}`])
+            textArea.focus()
         } else {
+            // here e is a li in tab
             if(this.isTabActive) {
                 this.lastClickedListInTab.classList.remove('activeTab')
                 this.lastClickedListInTab = e
@@ -195,7 +213,8 @@ export default class View {
                 if(typeof this.codeAreaData[`${id}`] === 'string') {
                     textArea.value = this.codeAreaData[`${id}`] 
                 } else {
-                    textArea.value = ''
+                    this.codeAreaData[`${id}`] = ''
+                    textArea.value = this.codeAreaData[`${id}`] 
                 }
             } else {
                 this.last2ClickedTabElements.push(e)
@@ -208,7 +227,7 @@ export default class View {
 
                 const textArea = createTextArea()
                 textArea.focus()
-                textArea.addEventListener('keydown', e => this.codeAutoSave(e))
+                textArea.addEventListener('change', e => this.codeAutoSave(e))
             }
         }
     }
@@ -216,7 +235,7 @@ export default class View {
     codeAutoSave = e => {
         const activeTab = document.querySelector('.activeTab')
         this.codeAreaData[`${activeTab.dataset.id}`] = e.target.value
-        console.log(this.codeAreaData)
+        // console.log(this.codeAreaData)
     }
 
     closeItem = e => {
