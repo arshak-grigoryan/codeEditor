@@ -299,20 +299,23 @@ export default class View {
     }
 
     deleteIconClick = e => {
+        // debugger
+        console.log(e.target)
         const projectFolder = document.querySelector('#root > .folder')
-        if(e.target.classList.contains('deleteIcon')) {
+        if(this.lastClickedFileOrFolder === projectFolder || this.lastClickedFileOrFolder === undefined) {
             projectFolder.classList.add('petqiVrov2')
             // this.folderNestedFilesDelete(projectFolder)
-            return    
+            return 
         }
-        const { className } = findParent(e.target)
-        if(className === 'folder') {
+        const { currentThis, className } = findParent(e.target)
+        if(currentThis !== this.lastClickedFileOrFolder && className === 'folder' && !this.lastClickedFileOrFolder.classList.contains('file')) {
             this.folderNestedFilesDelete(this.lastClickedFileOrFolder)
         }
-        else if(className === 'file') { 
+        else if(this.lastClickedFileOrFolder.classList.contains('file')) { 
+            
             const id = this.lastClickedFileOrFolder.dataset.id
             this.lastClickedFileOrFolder.remove() // bug error for projectfolder
-             
+            console.log(id) 
             const filesList = document.querySelectorAll('.listFile')
             filesList.forEach(el => {
                 if (id === el.dataset.id) {
@@ -324,7 +327,7 @@ export default class View {
     }
 
     folderNestedFilesDelete = folder => {
-        console.log(folder)
+        // console.log(folder)
         folder.classList.add('thisFolder')
         const allNestedFiles = document.querySelectorAll(`.thisFolder li`)
         const allNestedFilesIds = [] 

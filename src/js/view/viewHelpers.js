@@ -79,7 +79,6 @@ export function createInput ( parentElement, divClassName, InputClassName ) {
 }
 
 export function findParent (el) {
-  if(el === null ) { return }
   const attrClass = el.getAttribute('class')
   if (attrClass === 'folder') {
     if(el.parentElement.getAttribute('id') === 'root') {
