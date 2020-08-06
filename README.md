@@ -1,5 +1,5 @@
 # codeEditor
-![](src/img/codeEditor.PNG)
+![](src/img/screenshot.PNG)
 ## Usage
 
 At first you need insatlled Nodejs  
