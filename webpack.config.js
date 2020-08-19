@@ -3,6 +3,8 @@ const path = require('path')
 const HTMLWebpackPlugin = require('html-webpack-plugin')
 const { CleanWebpackPlugin } = require('clean-webpack-plugin')
 const CopyWebpackPlugin = require('copy-webpack-plugin')
+const webpack = require('webpack')
+const autoprefixer = require('autoprefixer')
 const MiniCSSExtractPlugin = require('mini-css-extract-plugin')
 const OptimizeCSSAssetsWebpackPlugin = require('optimize-css-assets-webpack-plugin')
 const TerserWebpackPlugin = require('terser-webpack-plugin')
@@ -47,12 +49,29 @@ const plugins = () => {
         new CleanWebpackPlugin(),
         new MiniCSSExtractPlugin({
             filename: filename('css'),
+        }),
+        new webpack.LoaderOptionsPlugin({
+            options: {
+                postcss: autoprefixer()
+            }
         })
     ]
     if (isProd) {
         base.push(new BundleAnalyzerPlugin())
     }
     return base
+}
+
+const jsLoaders = () => {
+    const loaders = [
+        {
+            loader: "babel-loader",
+        }
+    ]
+    if(isDev) {
+        loaders.push('eslint-loader')
+    }
+    return loaders
 }
 
 module.exports = {
@@ -78,17 +97,20 @@ module.exports = {
             {
                 test: /\.m?js$/,
                 exclude: /(node_modules|bower_components)/,
-                loader: {
-                    loader: "babel-loader",
-                }
+                use: jsLoaders()
             },
             {
                 test: /\.css$/,
-                use: [MiniCSSExtractPlugin.loader,'css-loader']
+                use: [MiniCSSExtractPlugin.loader,'css-loader','postcss-loader']
             },
             {
                 test: /\.(png)$/,
-                use: ['file-loader']
+                use: {
+                    loader:'file-loader',
+                    options:{
+                        outputPath: 'images'
+                    }
+                }
             }
         ]
     },
