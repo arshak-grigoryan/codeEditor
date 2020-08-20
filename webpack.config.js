@@ -13,6 +13,8 @@ const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer')
 const isDev = process.env.NODE_ENV === 'development'
 const isProd = process.env.NODE_ENV === 'production'
 
+const currentMode = () => isDev ? 'development' : 'production'
+
 const filename = ext => isDev ? `[name].${ext}` : `[name].[hash].${ext}`
 
 const optimization = () => {
@@ -76,7 +78,7 @@ const jsLoaders = () => {
 
 module.exports = {
     context: path.resolve(__dirname,'src'),
-    mode: 'development',
+    mode: currentMode(),
     entry: {
         main:[
             '@babel/polyfill', 
