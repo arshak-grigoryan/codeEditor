@@ -18,7 +18,7 @@ export default class View {
     this.app = document.getElementById('app');
     this.isProjectNow = false;
     this.last2ClickedElements = [];
-    this.lastClickedFileOrFolder;
+    this.lastClickedFileOrFolder = null;
     this.uniqueId = 0;
     this.lastClickedListInTab = null;
     this.isTabActive = false;
@@ -153,11 +153,12 @@ export default class View {
       filesList.forEach((val) => {
         ids.push(val.dataset.id);
       });
-      for (const val of ids) {
-        if (val === id) {
-          return true;
-        }
-      }
+      ids.some((val) => val === id);
+    //   for (const val of ids) {
+    //     if (val === id) {
+    //       return true;
+    //     }
+    //   }
     }
 
     fileClick = (e) => { // e can be event or this li(file in explorer) element
@@ -264,7 +265,7 @@ export default class View {
         this.folderNestedFilesDelete(projectFolder); // this is focus this deletion works after closeItem function on project folder click this does not be here but it is that for historical reasons
         this.isProjectNow = false;
         this.last2ClickedElements = [];
-        this.lastClickedFileOrFolder;
+        this.lastClickedFileOrFolder = null;
         this.uniqueId = 0;
         this.lastClickedListInTab = null;
         this.isTabActive = false;

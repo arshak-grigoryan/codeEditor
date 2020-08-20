@@ -18,14 +18,12 @@ export function createEl({
 }) {
   const el = document.createElement(tag);
   if (classes) {
-    for (const val of classes) {
-      el.classList.add(val);
-    }
+    classes.forEach((name) => el.classList.add(name));
   }
   if (attributes) {
-    for (const name in attributes) {
-      el.setAttribute(name, attributes[name]);
-    }
+    Object.entries(attributes).forEach((name) => {
+      el.setAttribute(name[0], name[1]);
+    });
   }
   if (content) { el.textContent = content; }
   if (parentEl) { parentEl.appendChild(el); }
@@ -70,7 +68,9 @@ export function creatFolder([name, parentElem]) {
   const iconArrow = createEl({
     tag: 'img', classes: ['iconArrow'], parentEl: iconArrowWrapper, attributes: { src: ICONS.expandArrowIcon },
   });
-  parentElem ? createEl({ tag: 'img', parentEl: iconArrowWrapper, attributes: { src: ICONS.folderOpenIcon } }) : null;
+  if (parentElem) {
+    createEl({ tag: 'img', parentEl: iconArrowWrapper, attributes: { src: ICONS.folderOpenIcon } });
+  }
   const span = createEl({ tag: 'span', parentEl: iconArrowWrapper, content: name });
   const content = createEl({ tag: 'div', classes: ['content'], parentEl: ul });
   return ul;
