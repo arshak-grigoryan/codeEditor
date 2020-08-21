@@ -27,7 +27,7 @@ export default class View {
     this.codeAreaData = {};
   }
 
-  addCreateProjectButton() {
+  addCreateProjectButton = () => {
     const createFolder = createProjectButton();
     createFolder.addEventListener('click', () => this.addItem());
   }
@@ -153,12 +153,7 @@ export default class View {
       filesList.forEach((val) => {
         ids.push(val.dataset.id);
       });
-      ids.some((val) => val === id);
-    //   for (const val of ids) {
-    //     if (val === id) {
-    //       return true;
-    //     }
-    //   }
+      return ids.some((val) => val === id);
     }
 
     fileClick = (e) => { // e can be event or this li(file in explorer) element

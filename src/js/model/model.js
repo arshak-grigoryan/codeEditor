@@ -4,10 +4,10 @@ export default class Model {
   }
 
   init() {
-    this.createFolderButton();
+    this.addCreateProjectButton();
   }
 
-  bindOnCreateFolderButton(cb) {
-    this.createFolderButton = cb;
-  }
+  bindAddCreateProjectButton = (cb) => {
+    this.addCreateProjectButton = cb;
+  };
 }
