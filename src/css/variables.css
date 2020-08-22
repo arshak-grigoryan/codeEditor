@@ -1,21 +1,21 @@
 :root {
-    --minWidthExplorer: 200px;
-    --minWidthCodeArea: 300px;
-    
-    --menuColor: rgb(60, 60, 60);
-    --explorerColor: rgb(37, 37, 38);
-    --codeAreaColor:rgb(30, 30, 30); 
-    --filesListWrapperColor: rgb(37, 37, 38);
-    --textAreaColor: rgb(30, 30, 30);
-    --fileColor: rgb(45, 45, 45);
-    --fileHoverColor: rgb(30, 30, 30);
-    --buttonColor: rgb(14, 99, 156);
-    --buttonHoverColor: rgb(17, 119, 187);
-    --defTransition: 0.3s;
-    --iconTransition: 0.15s;
-    --inputColor: rgb(60, 60, 60);
-    --itemHoverColor: rgb(55, 55, 61);
-    --itemFocusColor: rgb(9, 71, 113);
-    --grey: rgb(204,204,204);
-    --codeAreaBGColor: rgb(27,43,52);
+  --minWidthExplorer: 200px;
+  --minWidthCodeArea: 300px;
+
+  --menuColor: rgb(60, 60, 60);
+  --explorerColor: rgb(37, 37, 38);
+  --codeAreaColor: rgb(30, 30, 30);
+  --filesListWrapperColor: rgb(37, 37, 38);
+  --textAreaColor: rgb(30, 30, 30);
+  --fileColor: rgb(45, 45, 45);
+  --fileHoverColor: rgb(30, 30, 30);
+  --buttonColor: rgb(14, 99, 156);
+  --buttonHoverColor: rgb(17, 119, 187);
+  --defTransition: 0.3s;
+  --iconTransition: 0.15s;
+  --inputColor: rgb(60, 60, 60);
+  --itemHoverColor: rgb(55, 55, 61);
+  --itemFocusColor: rgb(9, 71, 113);
+  --grey: rgb(204, 204, 204);
+  --codeAreaBGColor: rgb(27, 43, 52);
 }

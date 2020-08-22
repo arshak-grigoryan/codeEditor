@@ -12,16 +12,16 @@ import trash from './trash.png';
 import close from './close.png';
 
 export const ICONS = {
-  folderIcon: folder,
-  folderOpenIcon: folderOpen,
-  folderIconLightIcon: folderIconLight,
-  fileDefaultIcon: fileDefault,
-  fileIconLightIcon: fileIconLight,
-  expandArrowIcon: expandArrow,
-  html5Icon: html5,
-  css3Icon: css3,
-  jsIcon: js,
-  editIcon: edit,
-  trashIcon: trash,
-  closeIcon: close,
+	folderIcon: folder,
+	folderOpenIcon: folderOpen,
+	folderIconLightIcon: folderIconLight,
+	fileDefaultIcon: fileDefault,
+	fileIconLightIcon: fileIconLight,
+	expandArrowIcon: expandArrow,
+	html5Icon: html5,
+	css3Icon: css3,
+	jsIcon: js,
+	editIcon: edit,
+	trashIcon: trash,
+	closeIcon: close,
 };

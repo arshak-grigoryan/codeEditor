@@ -1,13 +1,13 @@
 export default class Model {
-  constructor() {
-    this.project = null;
-  }
+	constructor() {
+		this.project = null;
+	}
 
-  init() {
-    this.addCreateProjectButton();
-  }
+	init() {
+		this.addCreateProjectButton();
+	}
 
-  bindAddCreateProjectButton = (cb) => {
-    this.addCreateProjectButton = cb;
-  };
+	bindAddCreateProjectButton = (cb) => {
+		this.addCreateProjectButton = cb;
+	};
 }
