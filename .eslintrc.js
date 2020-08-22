@@ -1,7 +1,7 @@
 module.exports = {
 	parser: 'babel-eslint',
 	extends: ['airbnb/base', 'prettier'],
-	plugins: ['html', 'prettier'],
+	plugins: ['prettier'],
 	env: {
 		es2020: true,
 		browser: true,
@@ -9,7 +9,7 @@ module.exports = {
 	parserOptions: {
 		ecmaVersion: 11,
 		sourceType: 'module',
-    },
+	},
 	rules: {
 		'prettier/prettier': 'error',
 		'import/prefer-default-export': 'off',
