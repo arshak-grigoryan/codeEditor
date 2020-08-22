@@ -1,13 +1,18 @@
 # codeEditor
 
-## https://arshak-grigoryan.github.io/codeEditor/
+link - https://arshak-grigoryan.github.io/codeEditor/  
 
 ![](src/img/screenshot.PNG)
 
+## Tech
+
+* [Webpack](https://webpack.js.org/) - open-source JavaScript module bundler
+* [ESLint](https://eslint.org/) - static code analysis tool for identifying problematic patterns found in JavaScript code
+* [Prettier](https://prettier.io/) - opinionated code formatter
+
 ## Usage
 
-At first you need insatlled Nodejs  
-You can find Nodejs here https://nodejs.org/en/
+codeEditor requires [node.js](https://nodejs.org/) to run.
 
 ### Installation
 
